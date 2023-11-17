@@ -1,52 +1,40 @@
-<?php
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <h1>Escolhendo uma ação do CRUD</h1>
+    </header>
+    <form action="<?=$_SERVER['PHP_SELF']?>" method="post">
+        <label for="action">Por favor escolha uma opção</label>
+        <select name="action" id="action">
+            <option value="getAll">Mostrar todos os funcionarios</option>
+            <option value="getById">Consultar por cpf</option>
+            <option value="add">Adicionar um novo funcionario</option>
+            <option value="delete">Excluir funcionarios</option>
+        </select>
+        <input type="submit" name="submit" value="Selecionar">
+    </form>
+</body>
+</html>
 
-    // $nameController = $_GET['c'];
-    // include_once ('./controllers/'.$nameController.'Controller.php');
-    require_once ('');
+<?php 
+    require('./controller/EmployeeController.php');
 
-    $controller = new ClientsController();
+    $controller = new EmployeeController();
 
-    $action = (isset($_GET['a']) || isset($_POST['a'])) ? (isset($_POST['a']) ? $_POST['a'] : $_GET['a']) : 'getAll';
-    $message = isset($_GET['m']) ? $_GET['m'] : '';
-    $status = !empty($_GET['s']) ? $_GET['s'] : '';
-
-    if(!empty($message) && isset($_GET['s']))
-    {
-        $messages = [
-            'edit' => ['editado','editar'],
-            'delete' => ['deletado','deletar'],
-            'update' => ['atualizado','atualizar'],
-            'insert' => ['inserido','inserir']
-        ];
-        $controller->{$action}($messages[$message][0],$messages[$message][1],$status);
-    }
-    else if($action == "delete")
-    {
-        $id = $_GET['id'];
-        $controller->{$action}($id);
-    }
-    else if($action == "search")
-    {
-        $data = $_GET['search'];
-        $view = isset($_GET['v']) ? $_GET['v'] : 'index';
-        if(empty($data))
-        {
-            $controller->getAll();
+    if(isset($_POST['submit'])){
+        $action = $_REQUEST['action'] ?? 'getAll';
+        if($action == 'getAll'){
+            $controller->{$action}();
         }
-        else
-        {
-            $controller->{$action}($data,$view);
+        if($action == 'getById'){
+            header('location: ./view/Employee/askId.php');
         }
     }
-    else if($action == "edit")
-    {
-        $controller->{$action}($_POST);
-    }
-    else if($action == "new")
-    {
-        $controller->{$action}($_POST);
-    }
-    else
-    {
-        $controller->{$action}();
-    }
+
+?>
