@@ -1,8 +1,10 @@
 <?php 
-    require_once('./config/ConexaoMySql.php');
-    require_once('./data/Employee.php');
+    namespace model;
 
-    class EmployeeModel extends ConexaoMySql{
+    require_once(__DIR__.'/../config/ConexaoMySql.php');
+    require_once(__DIR__.'/../data/Employee.php');
+
+    class EmployeeModel extends \ConexaoMySql{
         private $table;
 
         function __construct(){
@@ -15,18 +17,18 @@
                 $sql = " SELECT * FROM $this->table ;";
                 $result = $this->bd->execute_query($sql);
                 if(!$result){
-                    throw new Exception('Erro na consulta'. $this->bd->error);
+                    throw new \Exception('Erro na consulta'. $this->bd->error);
                 }
                 $employees = array();
                 while($e = $result->fetch_assoc()){
-                    $employee = new Employee($e['cpf']);
+                    $employee = new \Employee($e['cpf']);
                     $employee->insertAtributes($e);
                     array_push($employees, $employee);
                 }
                 
                 $this->bd->close();
                 return $employees;
-            }catch (Exception $e) {
+            }catch (\Exception $e) {
                 echo 'Error'. $e->getMessage();
                 return null;
             }
@@ -44,7 +46,7 @@
                     throw new \Exception('Erro na consulta'. $this->bd->error);
                 }
                 $e = $result->fetch_assoc();
-                $employee = new Employee($e['cpf']);
+                $employee = new \Employee($e['cpf']);
                 $employee->insertAtributes($e);
                 $stmt->close();
                 $this->bd->close();

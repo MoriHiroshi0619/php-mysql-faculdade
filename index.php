@@ -24,7 +24,7 @@
 
 <?php 
     require('./controller/EmployeeController.php');
-
+    use controller\EmployeeController;
     $controller = new EmployeeController();
 
     if(isset($_POST['submit'])){

@@ -1,11 +1,14 @@
 <?php
-    require_once('../model/EmployeeModel.php');
-    
+    namespace controller;
+
+    require_once(__DIR__.'/../model/EmployeeModel.php');
+    use model\EmployeeModel;
+
     class EmployeeController{
         private $model;
 
         function __construct(){
-            $this->model = new EmployeeModel();
+            $this->model = new \model\EmployeeModel();
         }
 
         public function getAll(){
@@ -16,7 +19,11 @@
 
         public function getById($cpf){
             $employee = $this->model->getById($cpf);
-            require_once('./view/Employee/showEmployee.php');
+            //require_once(__DIR__.'/../view/Employee/showEmployee.php');
+            $em = urlencode(json_encode($employee));
+            var_dump($employee);
+            var_dump($em);
+            //header("Location: showEmployee.php?objeto={$em}");
         }
         
     }

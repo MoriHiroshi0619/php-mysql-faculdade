@@ -24,16 +24,20 @@
                 <th>Numero de departamento</th>
             </tr>
             <?php 
+                $em = $_GET['objeto'];
+
+                $employee = json_decode(urldecode($em));
+
                 echo <<<HTML
                     <tr>
-                        <td>{$e->getFirstName()}</td>
-                        <td>{$e->getMiddleName()}</td>
-                        <td>{$e->getLastName()}</td>
-                        <td>{$e->getCpf()}</td>
-                        <td>{$e->getBirthDate()}</td>
-                        <td>{$e->getAddress()}</td>
-                        <td>{$e->getSalary()}</td>
-                        <td>{$e->getSex()}</td>
+                        <td>{$employee->getFirstName()}</td>
+                        <td>{$employee->getMiddleName()}</td>
+                        <td>{$employee->getLastName()}</td>
+                        <td>{$employee->getCpf()}</td>
+                        <td>{$employee->getBirthDate()}</td>
+                        <td>{$employee->getAddress()}</td>
+                        <td>{$employee->getSalary()}</td>
+                        <td>{$employee->getSex()}</td>
                         <td></td>
                         <td></td>
                     </tr>

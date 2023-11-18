@@ -12,18 +12,19 @@
     <main>
         <form action="<?=$_SERVER['PHP_SELF']?>" method="post">
             <label for="id">Informe o cpf do funcionario</label>
-            <input type="text" id="id" name="cpf" required>
-            <input type="submit" value="confirmar">
+            <input type="text" id="id" name="cpf" maxlength="11" required>
+            <input type="submit" name="submit" value="confirmar">
         </form>
     </main>
 
     <?php 
-        require('../../controller/EmployeeController.php');
-
-        $controller = new EmployeeController();
-
+        require(__DIR__ .'/../../controller/EmployeeController.php');
+        use controller\EmployeeController;
+        $controller = new \controller\EmployeeController();
+        
         if(isset($_POST['submit'])){
             $cpf = $_POST['cpf'] ?? null;
+            echo "<br $cpf>";
             $controller->getById($cpf);
         }
     ?>
