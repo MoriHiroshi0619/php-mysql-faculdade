@@ -64,7 +64,7 @@
         public function add($employee){
             try{
                 $sql = "INSERT INTO funcionario (pnome, minicial, unome, cpf, datanasc, endereco, sexo, salario)
-                VALUES(?, ?, ?, ?, ?, ?, ?, ?);";
+                        VALUES(?, ?, ?, ?, ?, ?, ?, ?);";
                 $stmt = $this->bd->prepare($sql);
 
                 $pnome = $employee->getFirstName();

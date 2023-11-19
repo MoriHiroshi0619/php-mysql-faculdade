@@ -59,5 +59,42 @@
                 return null;
             }
         }
+
+        public function getMaxIdNumber(){
+            try{
+                $sql = " SELECT MAX(dnumero) FROM $this->table ;";
+                $result = $this->bd->execute_query($sql);
+                if(!$result){
+                    throw new \Exception('Erro na consulta'. $this->bd->error);
+                }
+                $d = $result->fetch_assoc();
+                $num = $d['MAX(dnumero)'];
+                return $num;
+            }catch (\Exception $e) {
+                echo 'Error'. $e->getMessage();
+                return null;
+            }
+        }
+
+        public function add($department){
+            try{
+                $sql = "INSERT INTO $this->table (dnome, dnumero)
+                        VALUES(?, ?);";
+                $stmt = $this->bd->prepare($sql);
+
+                $dName = $department->getDName();
+                $dNumber = $department->getDNumber();
+                $stmt->bind_param("si",
+                                $dName,
+                                $dNumber);
+                $insert = $stmt->execute();
+                //$stmt->close();
+                //$this->bd->close();
+                return $insert;
+            }catch (\Exception $e) {
+                echo 'Error'. $e->getMessage();
+                return null;
+            }
+        }
     }
 ?>

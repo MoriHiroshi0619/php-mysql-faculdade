@@ -37,6 +37,10 @@
             header('location:/php-mysql-faculdade/view/Department/askId.php');
             exit();
         }
+        if($action == 'add'){
+            header('location:/php-mysql-faculdade/view/Department/addDepartment.php');
+            exit();
+        }
     }
 
 ?>

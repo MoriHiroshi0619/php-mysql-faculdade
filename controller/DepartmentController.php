@@ -30,5 +30,18 @@
                 exit();
             }
         }
+
+        public function getMaxIdNumber(){
+            return ($this->model->getMaxIdNumber() + 1);
+        }
+
+        public function addDepartment($department){
+            $insert = $this->model->add($department);
+            if($insert){
+                $this->getById($department->getDNumber());
+            }else{
+                echo "<br><p>#Falha ao adicionar departamento#</p>";
+            }
+        }
     }
 ?>
