@@ -18,7 +18,7 @@
         <?php 
             $employees = $controller->getAll();
             echo <<< HTML
-            <form action="{$_SERVER['PHP_SELF']}" method="post">
+            <form id="Form" action="{$_SERVER['PHP_SELF']}" method="post">
                 <table border="1">
                 <caption><input type="submit" name="submit" value="Apagar"></caption>
                     <tr>
@@ -54,16 +54,40 @@
             }
             echo "</form></table>"; 
             if(isset($_POST['submit'])){
-                $employees = array();
                 $cpfs = $_POST['employee'];
-                foreach($cpfs as $cpf){
-                    $employee = new Employee($cpf);
-                    array_push($employees, $employee);
+                var_dump($cpfs);
+                if($cpfs != null){
+                    $employees = array();
+                    foreach($cpfs as $cpf){
+                        $employee = new Employee($cpf);
+                        array_push($employees, $employee);
+                    }
+                    $controller->delete($employees);
+                }else{
+                    echo "<br><p>#Falha ao deletar funcionario pelo views#</p>";
                 }
-                $controller->delete($employees);
             }
         ?>
+        <button><a href="./action.php">Voltar</a></button>
     </main>
-    <button><a href="../../index.php">Voltar</a></button>
+    
+
+    <script>
+        document.getElementById('Form').addEventListener('submit', function(event) {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"][name="employee[]"]');
+            let peloMenosUmMarcado = false;
+
+            checkboxes.forEach(function(checkbox) {
+                if (checkbox.checked) {
+                    peloMenosUmMarcado = true;
+                }
+            });
+
+            if (!peloMenosUmMarcado) {
+                event.preventDefault();
+                alert('Por favor, marque pelo menos uma opção.');
+            }
+        });
+</script>
 </body>
 </html>

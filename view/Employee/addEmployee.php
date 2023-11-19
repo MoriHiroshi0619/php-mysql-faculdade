@@ -34,7 +34,7 @@
             <input type="number" id="sala" name="sala"  required>
             <input type="submit" name="submit" value="Inserir">
         </form>
-        <button><a href="../../index.php">Voltar</a></button>
+        <button><a href="./action.php">Voltar</a></button>
     </main>
     <?php 
         require(__DIR__ .'/../../controller/EmployeeController.php');
