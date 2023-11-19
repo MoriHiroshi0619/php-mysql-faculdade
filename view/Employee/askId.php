@@ -14,8 +14,7 @@
             <label for="id">Informe o cpf do funcionario</label>
             <input type="text" id="id" name="cpf" maxlength="11" required>
             <input type="submit" name="submit" value="confirmar">
-        </form>
-        <button><a href="./action.php">Voltar</a></button>
+        </form>  
     </main>
 
     <?php 
@@ -25,7 +24,6 @@
         
         if(isset($_POST['submit'])){
             $cpf = $_POST['cpf'] ?? null;
-            echo "<br $cpf>";
             $controller->getById($cpf);
         }
     ?>

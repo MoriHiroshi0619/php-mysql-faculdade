@@ -46,5 +46,15 @@
                 $this->setDName($department['dnome']);
             }
         }
+
+        public function toJason(){
+            return json_encode(array(
+                'dName' => $this->getDName(),
+                'dNumber' => $this->getDNumber(),
+                'manager' => $this->getManager(),
+                'managerStartDate' => $this->getManagerStartDate(),
+            ));
+        }
+
     }
 ?>

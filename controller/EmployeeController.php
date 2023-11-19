@@ -3,7 +3,7 @@
 
     require_once(__DIR__.'/../model/EmployeeModel.php');
     use model\EmployeeModel;
-use PDO;
+    use PDO;
 
     class EmployeeController{
         private $model;

@@ -19,6 +19,7 @@
         </select>
         <input type="submit" name="submit" value="Selecionar">
     </form>
+    <button><a href="../../index.php">Voltar</a></button>
 </body>
 </html>
 
