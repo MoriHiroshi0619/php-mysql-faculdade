@@ -56,5 +56,38 @@
                 return null;
             }
         }
+
+        public function add($employee){
+            try{
+                $sql = "INSERT INTO funcionario (pnome, minicial, unome, cpf, datanasc, endereco, sexo, salario)
+                VALUES(?, ?, ?, ?, ?, ?, ?, ?);";
+                $stmt = $this->bd->prepare($sql);
+
+                $pnome = $employee->getFirstName();
+                $minicial = $employee->getMiddleName();
+                $unome = $employee->getLastName();
+                $cpf = $employee->getCpf();
+                $data = $employee->getBirthDate();
+                $endereco = $employee->getAddress();
+                $sexo = $employee->getSex();
+                $salario = $employee->getSalary();
+                $stmt->bind_param("sssssssd",
+                                $pnome,
+                                $minicial,
+                                $unome,
+                                $cpf,
+                                $data,
+                                $endereco,
+                                $sexo,
+                                $salario);
+                $insert = $stmt->execute();
+                //$stmt->close();
+                //$this->bd->close();
+                return $insert;
+            }catch (\Exception $e) {
+                echo 'Error'. $e->getMessage();
+                return null;
+            }
+        }
     }
 ?>

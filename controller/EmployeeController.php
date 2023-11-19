@@ -23,6 +23,15 @@
             $em = urlencode(json_encode($employee->toJason()));
             header("Location: showEmployee.php?objeto={$em}");
         }
+
+        public function addEmployee($employee){
+            $insert = $this->model->add($employee);
+            if($insert){
+                $this->getById($employee->getCpf());
+            }else{
+                echo "<br><p>#Falha ao adicionar funcionario#</p>";
+            }
+        }
         
     }
 

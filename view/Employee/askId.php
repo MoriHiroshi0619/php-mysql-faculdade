@@ -15,6 +15,7 @@
             <input type="text" id="id" name="cpf" maxlength="11" required>
             <input type="submit" name="submit" value="confirmar">
         </form>
+        <button><a href="../../index.php">Voltar</a></button>
     </main>
 
     <?php 

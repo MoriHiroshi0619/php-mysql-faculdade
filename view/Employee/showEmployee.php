@@ -34,8 +34,8 @@
                         <td>{$employee->cpf}</td>
                         <td>{$employee->birthDate}</td>
                         <td>{$employee->address}</td>
-                        <td>{$employee->salary}</td>
                         <td>{$employee->sex}</td>
+                        <td>{$employee->salary}</td>
                         <td></td>
                         <td></td>
                     </tr>
