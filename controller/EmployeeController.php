@@ -3,6 +3,7 @@
 
     require_once(__DIR__.'/../model/EmployeeModel.php');
     use model\EmployeeModel;
+use PDO;
 
     class EmployeeController{
         private $model;
@@ -11,17 +12,25 @@
             $this->model = new \model\EmployeeModel();
         }
 
-        public function getAll(){
-            $employees = $this->model->getAll();
-            //print_r($employees);
-            require_once('./view/Employee/showAll.php');
+        public function getAll($view){
+            $employees = $this->model->getAll($view);
+            if($view){
+                //require_once(__DIR__. '/../view/Employee/showAll.php');
+                $jsonArray = array_map(function($employee){
+                    return $employee->toJason();
+                }, $employees);
+                $em = urlencode(json_encode($jsonArray));
+                header("Location: /php-mysql-faculdade/view/Employee/showAll.php?objeto={$em}");                
+            }else{
+                return $employees;
+            }
         }
 
         public function getById($cpf){
             $employee = $this->model->getById($cpf);
             //require_once(__DIR__.'/../view/Employee/showEmployee.php');
             $em = urlencode(json_encode($employee->toJason()));
-            header("Location: showEmployee.php?objeto={$em}");
+            header("Location: /php-mysql-faculdade/view/Employee/showEmployee.php?objeto={$em}");
         }
 
         public function addEmployee($employee){
@@ -31,6 +40,16 @@
             }else{
                 echo "<br><p>#Falha ao adicionar funcionario#</p>";
             }
+        }
+
+        public function delete($employees){
+            $delete = $this->model->delete($employees);
+            if($delete){
+                $this->getAll(true);
+            }else{
+                echo "<br><p>#Falha ao deletar funcionario#</p>";
+            }
+
         }
         
     }

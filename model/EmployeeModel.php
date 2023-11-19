@@ -12,7 +12,7 @@
             $this->table = 'funcionario';
         }
 
-        public function getAll(){
+        public function getAll($view){
             try{
                 $sql = " SELECT * FROM $this->table ;";
                 $result = $this->bd->execute_query($sql);
@@ -25,8 +25,9 @@
                     $employee->insertAtributes($e);
                     array_push($employees, $employee);
                 }
-                
-                $this->bd->close();
+                if($view){
+                    $this->bd->close();
+                }
                 return $employees;
             }catch (\Exception $e) {
                 echo 'Error'. $e->getMessage();
@@ -84,6 +85,34 @@
                 //$stmt->close();
                 //$this->bd->close();
                 return $insert;
+            }catch (\Exception $e) {
+                echo 'Error'. $e->getMessage();
+                return null;
+            }
+        }
+
+        public function delete($employees){
+            try{
+                $sql0 = "DELETE FROM dependente WHERE fcpf = ?";
+                $sql1 = "DELETE FROM trabalha_em WHERE fcpf = ?";
+                $sql2 = "DELETE FROM funcionario WHERE cpf = ?";
+                foreach($employees as $e){
+                    $stmt0 = $this->bd->prepare($sql0);
+                    $cpf = $e->getCpf();
+                    $stmt0->bind_param("s", $cpf);
+                    $delete = $stmt0->execute();
+
+                    $stmt1 = $this->bd->prepare($sql1);
+                    $stmt1->bind_param("s", $cpf);
+                    $delete = $stmt1->execute();
+                    
+                    $stmt2 = $this->bd->prepare($sql2);
+                    $stmt2->bind_param("s", $cpf);
+                    $delete = $stmt2->execute();
+                }
+                //$stmt1->close();
+                //$this->bd->close();
+                return $delete;
             }catch (\Exception $e) {
                 echo 'Error'. $e->getMessage();
                 return null;

@@ -42,7 +42,7 @@
                 HTML;
             ?>
         </table>
-        <a href="../../index.php">Voltar</a>
+        <button><a href="../../index.php">Voltar</a></button>
     </main>
 </body>
 </html>

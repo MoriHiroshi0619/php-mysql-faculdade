@@ -12,6 +12,9 @@
     </header>
     <main>
         <?php 
+        $em = $_GET['objeto'];
+        //converte o json(todos os objetos) para um array de json para cada objeto 
+        $employees = json_decode(urldecode($em));
         echo <<< HTML
             <table border="1">
                 <tr>
@@ -27,17 +30,18 @@
                     <th>Numero de departamento</th>
                 </tr>
         HTML;
-        foreach($employees as $e){
+        foreach($employees as $em){
+            $employee = json_decode($em);
             echo <<<HTML
                 <tr>
-                    <td>{$e->getFirstName()}</td>
-                    <td>{$e->getMiddleName()}</td>
-                    <td>{$e->getLastName()}</td>
-                    <td>{$e->getCpf()}</td>
-                    <td>{$e->getBirthDate()}</td>
-                    <td>{$e->getAddress()}</td>
-                    <td>{$e->getSalary()}</td>
-                    <td>{$e->getSex()}</td>
+                    <td>{$employee->firstName}</td>
+                    <td>{$employee->middleName}</td>
+                    <td>{$employee->lastName}</td>
+                    <td>{$employee->cpf}</td>
+                    <td>{$employee->birthDate}</td>
+                    <td>{$employee->address}</td>
+                    <td>{$employee->sex}</td>
+                    <td>{$employee->salary}</td>
                     <td></td>
                     <td></td>
                 </tr>
