@@ -15,6 +15,7 @@
             <input type="text" id="id" name="num" required>
             <input type="submit" name="submit" value="confirmar">
         </form>
+        <button><a href="./action.php">voltar</a></button>
     </main>
 
     <?php 

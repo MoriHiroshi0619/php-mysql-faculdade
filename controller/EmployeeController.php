@@ -30,9 +30,11 @@
         public function getById($cpf){
             $employee = $this->model->getById($cpf);
             //require_once(__DIR__.'/../view/Employee/showEmployee.php');
-            $em = urlencode(json_encode($employee->toJason()));
-            header("Location:/php-mysql-faculdade/view/Employee/showEmployee.php?objeto={$em}");
-            exit();
+            if($employee){
+                $em = urlencode(json_encode($employee->toJason()));
+                header("Location:/php-mysql-faculdade/view/Employee/showEmployee.php?objeto={$em}");
+                exit();
+            }
         }
 
         public function addEmployee($employee){

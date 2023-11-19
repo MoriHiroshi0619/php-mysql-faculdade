@@ -46,9 +46,12 @@
                 if(!$result){
                     throw new \Exception('Erro na consulta'. $this->bd->error);
                 }
+                $employee = false;
                 $e = $result->fetch_assoc();
-                $employee = new \Employee($e['cpf']);
-                $employee->insertAtributes($e);
+                if($e != null){
+                    $employee = new \Employee($e['cpf']);
+                    $employee->insertAtributes($e);
+                }
                 $stmt->close();
                 $this->bd->close();
                 return $employee;

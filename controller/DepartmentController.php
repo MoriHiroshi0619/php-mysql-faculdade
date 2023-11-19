@@ -24,9 +24,11 @@
 
         public function getById($num){
             $department = $this->model->getById($num);
-            $de = urlencode(json_encode($department->toJason()));
-            header("Location:/php-mysql-faculdade/view/Department/showDepartment.php?objeto={$de}");
-            exit();
+            if($department){
+                $de = urlencode(json_encode($department->toJason()));
+                header("Location:/php-mysql-faculdade/view/Department/showDepartment.php?objeto={$de}");
+                exit();
+            }
         }
     }
 ?>

@@ -45,9 +45,12 @@
                 if(!$result){
                     throw new \Exception('Erro na consulta'. $this->bd->error);
                 }
+                $department = false;
                 $e = $result->fetch_assoc();
-                $department = new \Department($e['dnumero']);
-                $department->insertAtributes($e);
+                if($e != null){
+                    $department = new \Department($e['dnumero']);
+                    $department->insertAtributes($e);
+                }
                 $stmt->close();
                 $this->bd->close();
                 return $department;
