@@ -12,25 +12,27 @@ use PDO;
             $this->model = new \model\EmployeeModel();
         }
 
-        public function getAll($view){
-            $employees = $this->model->getAll($view);
-            if($view){
-                //require_once(__DIR__. '/../view/Employee/showAll.php');
-                $jsonArray = array_map(function($employee){
-                    return $employee->toJason();
-                }, $employees);
-                $em = urlencode(json_encode($jsonArray));
-                header("Location: /php-mysql-faculdade/view/Employee/showAll.php?objeto={$em}");                
-            }else{
-                return $employees;
-            }
+        public function getAll(){
+            $employees = $this->model->getAll(false);
+            return $employees;
+        }
+
+        public function getAndShowAll(){
+            $employees = $this->model->getAll(true);
+            $jsonArray = array_map(function($employee){
+                return $employee->toJason();
+            }, $employees);
+            $em = urlencode(json_encode($jsonArray));
+            header("Location:/php-mysql-faculdade/view/Employee/showAll.php?objeto={$em}");    
+            exit();            
         }
 
         public function getById($cpf){
             $employee = $this->model->getById($cpf);
             //require_once(__DIR__.'/../view/Employee/showEmployee.php');
             $em = urlencode(json_encode($employee->toJason()));
-            header("Location: /php-mysql-faculdade/view/Employee/showEmployee.php?objeto={$em}");
+            header("Location:/php-mysql-faculdade/view/Employee/showEmployee.php?objeto={$em}");
+            exit();
         }
 
         public function addEmployee($employee){
@@ -45,7 +47,7 @@ use PDO;
         public function delete($employees){
             $delete = $this->model->delete($employees);
             if($delete){
-                $this->getAll(true);
+                $this->getAndShowAll();
             }else{
                 echo "<br><p>#Falha ao deletar funcionario#</p>";
             }

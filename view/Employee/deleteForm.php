@@ -16,7 +16,7 @@
     </header>
     <main>
         <?php 
-            $employees = $controller->getAll(false);
+            $employees = $controller->getAll();
             echo <<< HTML
             <form action="{$_SERVER['PHP_SELF']}" method="post">
                 <table border="1">
@@ -46,14 +46,13 @@
                         <td>{$e->getAddress()}</td>
                         <td>{$e->getSalary()}</td>
                         <td>{$e->getSex()}</td>
-                        <td></td>
-                        <td></td>
+                        <td>NULL</td>
+                        <td>NULL</td>
                         <td><input type="checkbox" name="employee[]" value="{$e->getCpf()}"></td>
                     </tr>
                 HTML;
             }
             echo "</form></table>"; 
-
             if(isset($_POST['submit'])){
                 $employees = array();
                 $cpfs = $_POST['employee'];

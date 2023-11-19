@@ -49,6 +49,8 @@
             }
             echo "</table>";  
         ?>
+        <button><a href="../../index.php">Voltar</a></button>
     </main>
+
 </body>
 </html>

@@ -30,16 +30,19 @@
     if(isset($_POST['submit'])){
         $action = $_REQUEST['action'] ?? 'getAll';
         if($action == 'getAll'){
-            $controller->{$action}(true);
+            $controller->getAndShowAll();
         }
         if($action == 'getById'){
             header('location: ./view/Employee/askId.php');
+            exit();
         }
         if($action == 'add'){
             header('location: ./view/Employee/addEmployee.php');
+            exit();
         }
         if($action == 'delete'){
             header('location: ./view/Employee/deleteForm.php');
+            exit();
             //require_once('./view/Employee/showAll.php');
         }
     }
