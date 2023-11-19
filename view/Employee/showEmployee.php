@@ -25,25 +25,24 @@
             </tr>
             <?php 
                 $em = $_GET['objeto'];
-
-                $employee = json_decode(urldecode($em));
-
+                $employee = json_decode(json_decode(urldecode($em)));
                 echo <<<HTML
                     <tr>
-                        <td>{$employee->getFirstName()}</td>
-                        <td>{$employee->getMiddleName()}</td>
-                        <td>{$employee->getLastName()}</td>
-                        <td>{$employee->getCpf()}</td>
-                        <td>{$employee->getBirthDate()}</td>
-                        <td>{$employee->getAddress()}</td>
-                        <td>{$employee->getSalary()}</td>
-                        <td>{$employee->getSex()}</td>
+                        <td>{$employee->firstName}</td>
+                        <td>{$employee->middleName}</td>
+                        <td>{$employee->lastName}</td>
+                        <td>{$employee->cpf}</td>
+                        <td>{$employee->birthDate}</td>
+                        <td>{$employee->address}</td>
+                        <td>{$employee->salary}</td>
+                        <td>{$employee->sex}</td>
                         <td></td>
                         <td></td>
                     </tr>
                 HTML;
             ?>
         </table>
+        <a href="../../index.php">Voltar</a>
     </main>
 </body>
 </html>

@@ -103,5 +103,18 @@
                 $this->setSalary($employee['salario']);
             }
         }
+
+        public function toJason(){
+            return json_encode(array(
+                'firstName' => $this->getFirstName(),
+                'middleName' => $this->getMiddleName(),
+                'lastName' => $this->getLastName(),
+                'cpf' => $this->getCpf(),
+                'birthDate' => $this->getBirthDate(),
+                'address' => $this->getAddress(),
+                'salary' => $this->getSalary(),
+                'sex' => $this->getSex(),
+            ));
+        }
     }
 ?>

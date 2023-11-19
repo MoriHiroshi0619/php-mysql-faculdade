@@ -20,10 +20,8 @@
         public function getById($cpf){
             $employee = $this->model->getById($cpf);
             //require_once(__DIR__.'/../view/Employee/showEmployee.php');
-            $em = urlencode(json_encode($employee));
-            var_dump($employee);
-            var_dump($em);
-            //header("Location: showEmployee.php?objeto={$em}");
+            $em = urlencode(json_encode($employee->toJason()));
+            header("Location: showEmployee.php?objeto={$em}");
         }
         
     }
