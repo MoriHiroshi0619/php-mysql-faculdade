@@ -65,5 +65,50 @@
             }
         }
 
+        public function getMaxIdNumber(){
+            try{
+                $sql = " SELECT MAX(projnumero) FROM $this->table ;";
+                $result = $this->bd->execute_query($sql);
+                if(!$result){
+                    throw new \Exception('Erro na consulta'. $this->bd->error);
+                }
+                $d = $result->fetch_assoc();
+                $num = $d['MAX(projnumero)'];
+                return $num;
+            }catch (\Exception $e) {
+                echo 'Error'. $e->getMessage();
+                return null;
+            }
+        }
+
+        public function add($project){
+            try{
+                $sql = "INSERT INTO $this->table (projnome, projnumero, projlocal)
+                        VALUES(?, ?, ?);";
+                $stmt = $this->bd->prepare($sql);
+
+                $pName = $project->getPName();
+                $pNum = $project->getPNumber();
+                $plocal = $project->getProjectLocal();
+                $stmt->bind_param("sis",
+                                $pName,
+                                $pNum,
+                                $plocal);
+                $insert = $stmt->execute();
+                //$stmt->close();
+                //$this->bd->close();
+                return $insert;
+            }catch (\Exception $e) {
+                echo 'Error'. $e->getMessage();
+                return null;
+            }
+        }
     }
 ?>
+
+
+
+
+
+
+

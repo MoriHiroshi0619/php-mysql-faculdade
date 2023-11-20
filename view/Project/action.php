@@ -42,8 +42,8 @@
         }
 
         if($action == 'add'){
-            //header('location:/php-mysql-faculdade/view/Department/addDepartment.php');
-            //exit();
+            header('location:/php-mysql-faculdade/view/Project/addProject.php');
+            exit();
         }
 
         if($action == 'edit'){

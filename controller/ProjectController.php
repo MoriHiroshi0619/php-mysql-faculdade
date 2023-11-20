@@ -31,6 +31,32 @@
             }
         }
 
+        public function getMaxIdNumber(){
+            return ($this->model->getMaxIdNumber() + 1);
+        }
 
+        public function addProject($project){
+            $insert = $this->model->add($project);
+            if($insert){
+                $this->getById($project->getPNumber());
+            }else{
+                echo "<br><p>#Falha ao adicionar projeto#</p>";
+            }
+
+        }
     }
 ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
