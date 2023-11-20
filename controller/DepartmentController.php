@@ -12,6 +12,11 @@
             $this->model = new \model\DepartmentModel();
         }
 
+        public function getAll(){
+            $departments = $this->model->getAll(false);
+            return $departments;
+        }
+
         public function getAndShowAll(){
             $departments = $this->model->getAll(true);
             $jsonArray = array_map(function($department){
@@ -41,6 +46,15 @@
                 $this->getById($department->getDNumber());
             }else{
                 echo "<br><p>#Falha ao adicionar departamento#</p>";
+            }
+        }
+
+        public function delete($departments){
+            $delete = $this->model->delete($departments);
+            if($delete){
+                $this->getAndShowAll();
+            }else{
+                echo "<br><p>#Falha ao deletar departamento#</p>";
             }
         }
     }

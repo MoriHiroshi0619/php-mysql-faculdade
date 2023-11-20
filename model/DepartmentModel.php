@@ -1,5 +1,8 @@
 <?php 
     namespace model;
+
+use PDO;
+
     require_once(__DIR__.'/../config/ConexaoMySql.php');
     require_once(__DIR__.'/../data/Department.php');
 
@@ -91,6 +94,29 @@
                 //$stmt->close();
                 //$this->bd->close();
                 return $insert;
+            }catch (\Exception $e) {
+                echo 'Error'. $e->getMessage();
+                return null;
+            }
+        }
+
+        public function delete($departments){
+            try{
+                
+                $sql1 = "UPDATE funcionario SET dnr = NULL WHERE dnr = ?";
+                $sql2 = "DELETE FROM $this->table WHERE dnumero = ?";
+                foreach($departments as $d){ 
+                    $stmt1 = $this->bd->prepare($sql1);
+                    $stmt1->bind_param("i", $d->getDNumber());
+                    $delete = $stmt1->execute(); 
+                    
+                    $stmt2 = $this->bd->prepare($sql2);
+                    $stmt2->bind_param("i", $d->getDNumber());
+                    $delete = $stmt2->execute();
+                }
+                //$stmt1->close();
+                //$this->bd->close();
+                return $delete;
             }catch (\Exception $e) {
                 echo 'Error'. $e->getMessage();
                 return null;

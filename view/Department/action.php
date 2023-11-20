@@ -33,12 +33,19 @@
         if($action == 'getAll'){
             $controller->getAndShowAll();
         }
+
         if($action == 'getById'){
             header('location:/php-mysql-faculdade/view/Department/askId.php');
             exit();
         }
+
         if($action == 'add'){
             header('location:/php-mysql-faculdade/view/Department/addDepartment.php');
+            exit();
+        }
+
+        if($action == 'delete'){
+            header('location:/php-mysql-faculdade/view/Department/deleteForm.php');
             exit();
         }
     }
