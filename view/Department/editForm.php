@@ -47,7 +47,7 @@
         <?php 
             if(isset($_POST['submit'])){
                 $dnome = $_POST['dnome'];
-                if($dnome != $department->getDName()){
+                if(!empty($dnome) && $dnome != $department->getDName()){
                     $department->setDName($dnome);
                 }
                 //var_dump($department);

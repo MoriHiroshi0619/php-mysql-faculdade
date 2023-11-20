@@ -29,7 +29,7 @@
             exit();
         }
         if($action == 'project'){
-            header('location:/php-mysql-faculdade/view/');
+            header('location:/php-mysql-faculdade/view/Project/action.php');
             exit();
         }
         if($action == 'department'){
