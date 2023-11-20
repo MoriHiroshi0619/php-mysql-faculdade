@@ -87,7 +87,15 @@
         }
 
         public function getSupervisorCpf(){
-            return $this->supervisor->getCpf();
+            if($this->getSupervisor() != null){
+                return $this->supervisor->getCpf();
+            }else{
+                return null;
+            }
+        }
+
+        public function getSupervisorName(){
+            return $this->supervisor->getFirstName();
         }
 
         public function insertAtributes($employee){

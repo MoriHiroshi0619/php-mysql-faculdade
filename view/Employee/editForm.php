@@ -16,7 +16,7 @@
     </header>
     <main>
         <table border="1">
-            <caption>Departmento que será editado</caption>
+            <caption>Funcionario que será editado</caption>
             <tr>
                 <th>P_nome</th>
                 <th>M_inicial</th>
@@ -32,20 +32,37 @@
             <?php 
                 $cpf = $_REQUEST['cpf'];
                 $employee = $controller->getEmployee($cpf);
-                echo <<<HTML
-                    <tr>
-                        <td>{$employee->getFirstName()}</td>
-                        <td>{$employee->getMiddleName()}</td>
-                        <td>{$employee->getLastName()}</td>
-                        <td>{$employee->getCpf()}</td>
-                        <td>{$employee->getBirthDate()}</td>
-                        <td>{$employee->getAddress()}</td>
-                        <td>{$employee->getSex()}</td>
-                        <td>{$employee->getSalary()}</td>
-                        <td>NULL</td>
-                        <td>NULL</td>
-                    </tr>
-                HTML;
+                if($employee->getSupervisor() != null){
+                    echo <<<HTML
+                        <tr>
+                            <td>{$employee->getFirstName()}</td>
+                            <td>{$employee->getMiddleName()}</td>
+                            <td>{$employee->getLastName()}</td>
+                            <td>{$employee->getCpf()}</td>
+                            <td>{$employee->getBirthDate()}</td>
+                            <td>{$employee->getAddress()}</td>
+                            <td>{$employee->getSalary()}</td>
+                            <td>{$employee->getSex()}</td>
+                            <td>{$employee->getSupervisorCpf()}</td>
+                            <td>NULL</td>
+                        </tr>
+                    HTML;
+                }else{
+                    echo <<<HTML
+                        <tr>
+                            <td>{$employee->getFirstName()}</td>
+                            <td>{$employee->getMiddleName()}</td>
+                            <td>{$employee->getLastName()}</td>
+                            <td>{$employee->getCpf()}</td>
+                            <td>{$employee->getBirthDate()}</td>
+                            <td>{$employee->getAddress()}</td>
+                            <td>{$employee->getSalary()}</td>
+                            <td>{$employee->getSex()}</td>
+                            <td>NULL</td>
+                            <td>NULL</td>
+                        </tr>
+                    HTML;
+                }
             ?>
         </table>
         <form action="<?=$_SERVER['PHP_SELF']?>" method="post">
@@ -68,6 +85,38 @@
             <br>
             <label for="sala">Salario</label>
             <input type="number" id="sala" name="sala">
+            <br>
+            <label for="supervisor">supervisor </label>
+            <select name="sp" id="supervisor">
+                <?php 
+                    if($employee->getSupervisor() != null){
+                        echo <<<HTML
+                            <option value="{$employee->getSupervisorCpf()}">{$employee->getSupervisorCpf()}/{$employee->getSupervisorName()}</option>
+                        HTML;  
+                    }
+                ?>
+                <option value="null">Nenhum</option>
+                <?php 
+                    $employees = $controller->getAll();
+                    if($employee->getSupervisor() != null){
+                        foreach($employees as $e){
+                            if($e->getCpf() != $employee->getSupervisorCpf() && $e->getCpf() != $employee->getCpf()){
+                                echo <<<HTML
+                                    <option value="{$e->getCpf()}">{$e->getCpf()}/{$e->getFirstName()}</option>
+                                HTML;  
+                            }
+                        }
+                    }else{
+                        foreach($employees as $e){
+                            if($e->getCpf() != $employee->getCpf()){
+                                echo <<<HTML
+                                    <option value="{$e->getCpf()}">{$e->getCpf()}/{$e->getFirstName()}</option>
+                                HTML;  
+                            }
+                        }
+                    }
+                ?>
+            </select>
             
             <input type="hidden" name="cpf" value="<?=$cpf?>">
             <input type="submit" name="submit" value="Editar">
@@ -82,27 +131,33 @@
                 $endereco = $_POST['endereco'];
                 $sexo = $_POST['genero'];
                 $salario = $_POST['sala'];
+                $supervisor = $_POST['sp'];
                 
                 if(!empty($pnome) && $pnome != $employee->getFirstName()){
                     $employee->setFirstName($pnome);
                 }
-                if (!empty($minicial) && $minicial != $employee->getMiddleName()) {
+                if(!empty($minicial) && $minicial != $employee->getMiddleName()) {
                     $employee->setMiddleName($minicial);
                 }
-                if (!empty($unome) && $unome != $employee->getLastName()) {
+                if(!empty($unome) && $unome != $employee->getLastName()) {
                     $employee->setLastName($unome);
                 }
-                if (!empty($data) && $data != $employee->getBirthDate()) {
+                if(!empty($data) && $data != $employee->getBirthDate()) {
                     $employee->setBirthDate($data);
                 }
-                if (!empty($endereco) && $endereco != $employee->getAddress()) {
+                if(!empty($endereco) && $endereco != $employee->getAddress()) {
                     $employee->setAddress($endereco);
                 }
-                if (!empty($sexo) && $sexo != $employee->getSex()) {
+                if(!empty($sexo) && $sexo != $employee->getSex()) {
                     $employee->setSex($sexo);
                 }
-                if (!empty($salario) && $salario != $employee->getSalary()) {
+                if(!empty($salario) && $salario != $employee->getSalary()) {
                     $employee->setSalary($salario);
+                }
+
+                if($supervisor != null && $supervisor != $employee->getSupervisorCpf()){
+                    $supervisor = $controller->getEmployee($supervisor);
+                    $employee->setSupervisor($supervisor);
                 }
 
                 $controller->update($employee);
