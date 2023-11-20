@@ -86,6 +86,10 @@
             $this->supervisor = $supervisor;
         }
 
+        public function getSupervisorCpf(){
+            return $this->supervisor->getCpf();
+        }
+
         public function insertAtributes($employee){
             if($employee['pnome']){
                 $this->setFirstName($employee['pnome']);
