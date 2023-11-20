@@ -23,6 +23,10 @@
                 while($e = $result->fetch_assoc()){
                     $employee = new \Employee($e['cpf']);
                     $employee->insertAtributes($e);
+                    if($e['cpf_supervisor'] != null){
+                        $supervisor = $this->getById($e['cpf_supervisor'], false);
+                        $employee->setSupervisor($supervisor);
+                    } 
                     array_push($employees, $employee);
                 }
                 if($view){
@@ -48,9 +52,14 @@
                 }
                 $employee = false;
                 $e = $result->fetch_assoc();
+                //var_dump($e);
                 if($e != null){
                     $employee = new \Employee($e['cpf']);
                     $employee->insertAtributes($e);
+                    if($e['cpf_supervisor'] != null){
+                        $supervisor = $this->getById($e['cpf_supervisor'], false);
+                        $employee->setSupervisor($supervisor);
+                    } 
                 }
                 if($view){
                     $stmt->close();

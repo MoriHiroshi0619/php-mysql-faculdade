@@ -8,6 +8,7 @@
         private $address;
         private $salary;
         private $sex;
+        private $supervisor;
 
         public function __construct($cpf){
             $this->cpf = $cpf;
@@ -77,6 +78,14 @@
             $this->sex = $s;
         }
 
+        public function getSupervisor(){
+            return $this->supervisor;
+        }
+
+        public function setSupervisor($supervisor){
+            $this->supervisor = $supervisor;
+        }
+
         public function insertAtributes($employee){
             if($employee['pnome']){
                 $this->setFirstName($employee['pnome']);
@@ -105,16 +114,30 @@
         }
 
         public function toJason(){
-            return json_encode(array(
-                'firstName' => $this->getFirstName(),
-                'middleName' => $this->getMiddleName(),
-                'lastName' => $this->getLastName(),
-                'cpf' => $this->getCpf(),
-                'birthDate' => $this->getBirthDate(),
-                'address' => $this->getAddress(),
-                'salary' => $this->getSalary(),
-                'sex' => $this->getSex(),
-            ));
+            if($this->getSupervisor() != null){
+                return json_encode(array(
+                    'firstName' => $this->getFirstName(),
+                    'middleName' => $this->getMiddleName(),
+                    'lastName' => $this->getLastName(),
+                    'cpf' => $this->getCpf(),
+                    'birthDate' => $this->getBirthDate(),
+                    'address' => $this->getAddress(),
+                    'salary' => $this->getSalary(),
+                    'sex' => $this->getSex(),
+                    'supervisor' => $this->supervisor->toJason()
+                ));
+            }else{
+                return json_encode(array(
+                    'firstName' => $this->getFirstName(),
+                    'middleName' => $this->getMiddleName(),
+                    'lastName' => $this->getLastName(),
+                    'cpf' => $this->getCpf(),
+                    'birthDate' => $this->getBirthDate(),
+                    'address' => $this->getAddress(),
+                    'salary' => $this->getSalary(),
+                    'sex' => $this->getSex()
+                ));
+            }
         }
     }
 ?>

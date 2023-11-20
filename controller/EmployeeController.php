@@ -31,6 +31,7 @@
             $employee = $this->model->getById($cpf, true);
             //require_once(__DIR__.'/../view/Employee/showEmployee.php');
             if($employee){
+                //var_dump($employee);
                 $em = urlencode(json_encode($employee->toJason()));
                 header("Location:/php-mysql-faculdade/view/Employee/showEmployee.php?objeto={$em}");
                 exit();

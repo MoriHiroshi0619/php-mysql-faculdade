@@ -32,21 +32,39 @@
         HTML;
         foreach($employees as $em){
             $employee = json_decode($em);
-            echo <<<HTML
-                <tr>
-                    <td>{$employee->firstName}</td>
-                    <td>{$employee->middleName}</td>
-                    <td>{$employee->lastName}</td>
-                    <td>{$employee->cpf}</td>
-                    <td>{$employee->birthDate}</td>
-                    <td>{$employee->address}</td>
-                    <td>{$employee->sex}</td>
-                    <td>{$employee->salary}</td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            HTML;
-            }
+            if(!empty($employee->supervisor)){
+                $supervisor = json_decode($employee->supervisor);
+                echo <<<HTML
+                    <tr>
+                        <td>{$employee->firstName}</td>
+                        <td>{$employee->middleName}</td>
+                        <td>{$employee->lastName}</td>
+                        <td>{$employee->cpf}</td>
+                        <td>{$employee->birthDate}</td>
+                        <td>{$employee->address}</td>
+                        <td>{$employee->sex}</td>
+                        <td>{$employee->salary}</td>
+                        <td>{$supervisor->cpf}</td>
+                        <td></td>
+                    </tr>
+                HTML;
+            }else{
+                echo <<<HTML
+                    <tr>
+                        <td>{$employee->firstName}</td>
+                        <td>{$employee->middleName}</td>
+                        <td>{$employee->lastName}</td>
+                        <td>{$employee->cpf}</td>
+                        <td>{$employee->birthDate}</td>
+                        <td>{$employee->address}</td>
+                        <td>{$employee->sex}</td>
+                        <td>{$employee->salary}</td>
+                        <td>NULL</td>
+                        <td></td>
+                    </tr>
+                HTML;
+            }   
+        }
             echo "</table>";  
         ?>
         <button><a href="./action.php">Voltar</a></button>
