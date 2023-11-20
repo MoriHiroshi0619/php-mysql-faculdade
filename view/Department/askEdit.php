@@ -49,6 +49,5 @@
         ?>
         <button><a href="./action.php">Voltar</a></button>
     </main>
-</script>
 </body>
 </html>

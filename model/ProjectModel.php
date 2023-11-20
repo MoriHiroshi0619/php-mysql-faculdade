@@ -126,6 +126,31 @@
                 return null;
             }
         }
+
+        public function update($project){
+            try{
+                $sql = "UPDATE $this->table
+                        SET projnome = ?, projlocal = ?
+                        WHERE projnumero = ? ;";
+                $stmt = $this->bd->prepare($sql);
+
+                $pName = $project->getPName();
+                $pLocal = $project->getProjectLocal();
+                $pNumber = $project->getPNumber()
+                ;
+                $stmt->bind_param("ssi",
+                                $pName,
+                                $pLocal,
+                                $pNumber);
+                $update = $stmt->execute();
+                //$stmt->close();
+                //$this->bd->close();
+                return $update;
+            }catch (\Exception $e) {
+                echo 'Error'. $e->getMessage();
+                return null;
+            }
+        }
     }
 ?>
 

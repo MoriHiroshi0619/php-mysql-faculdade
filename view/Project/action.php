@@ -47,8 +47,8 @@
         }
 
         if($action == 'edit'){
-            //header('location:/php-mysql-faculdade/view/Department/askEdit.php');
-            //exit();
+            header('location:/php-mysql-faculdade/view/Project/askEdit.php');
+            exit();
         }
 
         if($action == 'delete'){

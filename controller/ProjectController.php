@@ -36,6 +36,10 @@
             }
         }
 
+        public function getProject($num){
+            return $this->model->getById($num, false);
+        }
+
         public function getMaxIdNumber(){
             return ($this->model->getMaxIdNumber() + 1);
         }
@@ -56,6 +60,15 @@
                 $this->getAndShowAll();
             }else{
                 echo "<br><p>#Falha ao deletar projeto#</p>";
+            }
+        }
+
+        public function update($project){
+            $update = $this->model->update($project);
+            if($update){
+                $this->getById($project->getPNumber());
+            }else{
+                echo "<br><p>#Falha ao editar Projeto#</p>";
             }
         }
     }
