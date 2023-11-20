@@ -49,7 +49,7 @@
                             <td>{$e->getSex()}</td>
                             <td>{$e->getSupervisorCpf()}</td>
                             <td>NULL</td>
-                            <td><input type="checkbox" name="employee[]" value="{$e->getCpf()}"></td>
+                            <td><input type="radio" name="employee" value="{$e->getCpf()}"></td>
                         </tr>
                     HTML;
                 }else{
@@ -65,7 +65,7 @@
                             <td>{$e->getSex()}</td>
                             <td>NULL</td>
                             <td>NULL</td>
-                            <td><input type="checkbox" name="employee[]" value="{$e->getCpf()}"></td>
+                            <td><input type="radio" name="employee" value="{$e->getCpf()}"></td>
                         </tr>
                     HTML;
                 }
