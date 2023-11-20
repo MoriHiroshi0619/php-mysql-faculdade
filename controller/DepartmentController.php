@@ -28,12 +28,16 @@
         }
 
         public function getById($num){
-            $department = $this->model->getById($num);
+            $department = $this->model->getById($num, true);
             if($department){
                 $de = urlencode(json_encode($department->toJason()));
                 header("Location:/php-mysql-faculdade/view/Department/showDepartment.php?objeto={$de}");
                 exit();
             }
+        }
+
+        public function getDepartment($num){
+            return $department = $this->model->getById($num, false);
         }
 
         public function getMaxIdNumber(){
@@ -55,6 +59,15 @@
                 $this->getAndShowAll();
             }else{
                 echo "<br><p>#Falha ao deletar departamento#</p>";
+            }
+        }
+
+        public function update($department){
+            $update = $this->model->update($department);
+            if($update){
+                $this->getById($department->getDNumber());
+            }else{
+                echo "<br><p>#Falha ao editar departamento#</p>";
             }
         }
     }

@@ -37,7 +37,7 @@
             }
         }
 
-        public function getById($num){
+        public function getById($num, $view){
             try{
                 $sql = " SELECT * FROM $this->table WHERE dnumero = ?;";
 
@@ -54,8 +54,10 @@
                     $department = new \Department($e['dnumero']);
                     $department->insertAtributes($e);
                 }
-                $stmt->close();
-                $this->bd->close();
+                if($view){
+                    $stmt->close();
+                    $this->bd->close();
+                }
                 return $department;
             }catch (\Exception $e) {
                 echo 'Error'. $e->getMessage();
@@ -117,6 +119,29 @@
                 //$stmt1->close();
                 //$this->bd->close();
                 return $delete;
+            }catch (\Exception $e) {
+                echo 'Error'. $e->getMessage();
+                return null;
+            }
+        }
+
+        public function update($department){
+            try{
+                $sql = "UPDATE $this->table
+                        SET dnome = ?
+                        WHERE dnumero = ? ;";
+
+                $stmt = $this->bd->prepare($sql);
+
+                $dName = $department->getDName();
+                $dNumber = $department->getDNumber();
+                $stmt->bind_param("si",
+                                $dName,
+                                $dNumber);
+                $update = $stmt->execute();
+                //$stmt->close();
+                //$this->bd->close();
+                return $update;
             }catch (\Exception $e) {
                 echo 'Error'. $e->getMessage();
                 return null;

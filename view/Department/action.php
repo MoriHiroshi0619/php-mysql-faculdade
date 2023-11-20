@@ -15,6 +15,7 @@
             <option value="getAll">Mostrar todos os departamentos</option>
             <option value="getById">Consultar pelo numero</option>
             <option value="add">Adicionar um novo departamento</option>
+            <option value="edit">Editar um departamento</option>
             <option value="delete">Excluir um departamento</option>
         </select>
         <input type="submit" name="submit" value="Selecionar">
@@ -41,6 +42,11 @@
 
         if($action == 'add'){
             header('location:/php-mysql-faculdade/view/Department/addDepartment.php');
+            exit();
+        }
+
+        if($action == 'edit'){
+            header('location:/php-mysql-faculdade/view/Department/askEdit.php');
             exit();
         }
 
