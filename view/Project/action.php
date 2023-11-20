@@ -33,11 +33,12 @@
         $action = $_REQUEST['action'] ?? 'getAll';
         if($action == 'getAll'){
             $controller->getAndShowAll();
+
         }
 
         if($action == 'getById'){
-            //header('location:/php-mysql-faculdade/view/Department/askId.php');
-            //exit();
+            header('location:/php-mysql-faculdade/view/Project/askId.php');
+            exit();
         }
 
         if($action == 'add'){

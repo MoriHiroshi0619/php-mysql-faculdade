@@ -4,7 +4,7 @@
         private $dNumber;
         private $manager;
         private $managerStartDate;
-
+        
         public function __construct($number){
             $this->dNumber = $number;
         }

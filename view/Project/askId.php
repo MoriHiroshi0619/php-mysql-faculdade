@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contulta</title>
+</head>
+<body>
+    <header>
+        <h1>Consultando um Projeto pelo ID</h1>
+    </header>
+    <main>
+        <form action="<?=$_SERVER['PHP_SELF']?>" method="post">
+            <label for="id">Informe o ID do Projeto</label>
+            <input type="text" id="id" name="num" required>
+            <input type="submit" name="submit" value="confirmar">
+        </form>
+        <button><a href="./action.php">voltar</a></button>
+    </main>
+
+    <?php 
+        require(__DIR__.'/../../controller/ProjectController.php');
+        use controller\ProjectController;
+        $controller = new ProjectController();
+        
+        if(isset($_POST['submit'])){
+            $num = $_POST['num'] ?? null;
+            $controller->getById($num);
+        }
+    ?>
+</body>
+</html>

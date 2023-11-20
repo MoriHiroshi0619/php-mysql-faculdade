@@ -5,6 +5,10 @@
         private $projectLocal;
         private $department;
 
+        public function __construct($pnum){
+            $this->pNumber = $pnum;
+        }
+
         public function getPName() {
             return $this->pName;
         }
