@@ -52,8 +52,8 @@
         }
 
         if($action == 'delete'){
-            //header('location:/php-mysql-faculdade/view/Department/deleteForm.php');
-            //exit();
+            header('location:/php-mysql-faculdade/view/Project/deleteForm.php');
+            exit();
         }
     }
 

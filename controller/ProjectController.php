@@ -12,6 +12,11 @@
             $this->model = new \model\ProjectModel();
         }
 
+        public function getAll(){
+            $projects = $this->model->getAll(false);
+            return $projects;
+        }
+
         public function getAndShowAll(){
             $projects = $this->model->getAll(true);
             $jsonArray = array_map(function($project){
@@ -43,6 +48,15 @@
                 echo "<br><p>#Falha ao adicionar projeto#</p>";
             }
 
+        }
+
+        public function delete($projects){
+            $delete = $this->model->delete($projects);
+            if($delete){
+                $this->getAndShowAll();
+            }else{
+                echo "<br><p>#Falha ao deletar projeto#</p>";
+            }
         }
     }
 ?>

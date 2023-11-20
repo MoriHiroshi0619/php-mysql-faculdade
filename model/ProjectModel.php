@@ -103,6 +103,29 @@
                 return null;
             }
         }
+
+        public function delete($projects){
+            try{
+                
+                $sql1 = "UPDATE trabalha_em SET pnr = NULL WHERE pnr = ?";
+                $sql2 = "DELETE FROM $this->table WHERE projnumero = ?";
+                foreach($projects as $p){ 
+                    $stmt1 = $this->bd->prepare($sql1);
+                    $stmt1->bind_param("i", $p->getPNumber());
+                    $delete = $stmt1->execute(); 
+                    
+                    $stmt2 = $this->bd->prepare($sql2);
+                    $stmt2->bind_param("i", $p->getPNumber());
+                    $delete = $stmt2->execute();
+                }
+                //$stmt1->close();
+                //$this->bd->close();
+                return $delete;
+            }catch (\Exception $e) {
+                echo 'Error'. $e->getMessage();
+                return null;
+            }
+        }
     }
 ?>
 
