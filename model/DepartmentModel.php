@@ -1,7 +1,7 @@
 <?php 
     namespace model;
 
-use PDO;
+    use PDO;
 
     require_once(__DIR__.'/../config/ConexaoMySql.php');
     require_once(__DIR__.'/../data/Department.php');
