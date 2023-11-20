@@ -74,8 +74,8 @@
 
         public function add($employee){
             try{
-                $sql = "INSERT INTO funcionario (pnome, minicial, unome, cpf, datanasc, endereco, sexo, salario)
-                        VALUES(?, ?, ?, ?, ?, ?, ?, ?);";
+                $sql = "INSERT INTO funcionario (pnome, minicial, unome, cpf, datanasc, endereco, sexo, salario, cpf_supervisor)
+                        VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);";
                 $stmt = $this->bd->prepare($sql);
 
                 $pnome = $employee->getFirstName();
@@ -86,7 +86,13 @@
                 $endereco = $employee->getAddress();
                 $sexo = $employee->getSex();
                 $salario = $employee->getSalary();
-                $stmt->bind_param("sssssssd",
+
+                if($employee->getSupervisor() != null){
+                    $supervisor = $employee->getSupervisorCpf();
+                }else{
+                    $supervisor = null;
+                }
+                $stmt->bind_param("sssssssds",
                                 $pnome,
                                 $minicial,
                                 $unome,
@@ -94,7 +100,8 @@
                                 $data,
                                 $endereco,
                                 $sexo,
-                                $salario);
+                                $salario,
+                                $supervisor);
                 $insert = $stmt->execute();
                 //$stmt->close();
                 //$this->bd->close();

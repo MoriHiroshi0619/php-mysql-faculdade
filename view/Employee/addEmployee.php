@@ -6,6 +6,12 @@
     <title>Adicionar</title>
 </head>
 <body>
+    <?php 
+        require(__DIR__ .'/../../controller/EmployeeController.php');
+        use controller\EmployeeController;
+        $controller = new \controller\EmployeeController();
+    ?>
+
     <header>
         <h1>Adicionando um novo funcionario</h1>
     </header>
@@ -32,14 +38,24 @@
             <br>
             <label for="sala">Salario</label>
             <input type="number" id="sala" name="sala"  required>
+            <br>
+            <label for="supervisor">se tiver supervisor, escolha pelo cpf/nome</label>
+            <select name="sp" id="supervisor">
+                <option value="null">Nenhum</option>
+                <?php 
+                    $employees = $controller->getAll();
+                    foreach($employees as $e){
+                        echo <<<HTML
+                            <option value="{$e->getCpf()}">{$e->getCpf()}/{$e->getFirstName()}</option>
+                        HTML;  
+                    }
+                ?>
+            </select>
             <input type="submit" name="submit" value="Inserir">
         </form>
         <button><a href="./action.php">Voltar</a></button>
     </main>
     <?php 
-        require(__DIR__ .'/../../controller/EmployeeController.php');
-        use controller\EmployeeController;
-        $controller = new \controller\EmployeeController();
         if(isset($_POST['submit'])){
             $employee = null;
             $pnome = $_POST['pnome'] ?? null;
@@ -50,6 +66,7 @@
             $endereco = $_POST['endereco'] ?? null;
             $sexo = $_POST['genero'] ?? null;
             $salario = $_POST['sala'] ?? null;
+            $supervisor = $_POST['sp'] ?? null;
 
             $employee = new Employee($cpf); 
 
@@ -60,6 +77,9 @@
             $employee->setAddress($endereco);
             $employee->setSex($sexo);
             $employee->setSalary($salario);
+
+            $supervisor = $controller->getEmployee($supervisor);
+            $employee->setSupervisor($supervisor);
 
             $controller->addEmployee($employee);
         }
