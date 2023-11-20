@@ -15,6 +15,7 @@
             <option value="getAll">Mostrar todos os funcionarios</option>
             <option value="getById">Consultar por cpf</option>
             <option value="add">Adicionar um novo funcionario</option>
+            <option value="edit">Editar um funcionario</option>
             <option value="delete">Excluir funcionarios</option>
         </select>
         <input type="submit" name="submit" value="Selecionar">
@@ -41,6 +42,12 @@
             header('location:/php-mysql-faculdade/view/Employee/addEmployee.php');
             exit();
         }
+
+        if($action == 'edit'){
+            header('location:/php-mysql-faculdade/view/Employee/askEdit.php');
+            exit();
+        }
+
         if($action == 'delete'){
             header('location:/php-mysql-faculdade/view/Employee/deleteForm.php');
             exit();

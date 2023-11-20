@@ -35,7 +35,7 @@
             }
         }
 
-        public function getById($cpf){
+        public function getById($cpf, $view){
             try{
                 $sql = " SELECT * FROM $this->table WHERE cpf = ?;";
 
@@ -52,8 +52,10 @@
                     $employee = new \Employee($e['cpf']);
                     $employee->insertAtributes($e);
                 }
-                $stmt->close();
-                $this->bd->close();
+                if($view){
+                    $stmt->close();
+                    $this->bd->close();
+                }
                 return $employee;
             }catch (\Exception $e) {
                 echo 'Error'. $e->getMessage();
@@ -116,6 +118,41 @@
                 //$stmt1->close();
                 //$this->bd->close();
                 return $delete;
+            }catch (\Exception $e) {
+                echo 'Error'. $e->getMessage();
+                return null;
+            }
+        }
+
+        public function update($employee){
+            try{
+                $sql = "UPDATE $this->table
+                        SET pnome = ?, minicial = ?, unome = ?, datanasc = ?, endereco = ?, sexo = ?, salario =?
+                        WHERE cpf = ? ;";
+
+                $stmt = $this->bd->prepare($sql);
+
+                $pnome = $employee->getFirstName();
+                $minicial = $employee->getMiddleName();
+                $unome = $employee->getLastName();
+                $datanasc = $employee->getBirthDate();
+                $endereco = $employee->getAddress();
+                $sexo = $employee->getSex();
+                $salario = $employee->getSalary();
+                $cpf = $employee->getCpf();
+                $stmt->bind_param("ssssssds",
+                                $pnome,
+                                $minicial,
+                                $unome,
+                                $datanasc,
+                                $endereco,
+                                $sexo,
+                                $salario,
+                                $cpf);
+                $update = $stmt->execute();
+                //$stmt->close();
+                //$this->bd->close();
+                return $update;
             }catch (\Exception $e) {
                 echo 'Error'. $e->getMessage();
                 return null;

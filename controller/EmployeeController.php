@@ -28,13 +28,17 @@
         }
 
         public function getById($cpf){
-            $employee = $this->model->getById($cpf);
+            $employee = $this->model->getById($cpf, true);
             //require_once(__DIR__.'/../view/Employee/showEmployee.php');
             if($employee){
                 $em = urlencode(json_encode($employee->toJason()));
                 header("Location:/php-mysql-faculdade/view/Employee/showEmployee.php?objeto={$em}");
                 exit();
             }
+        }
+
+        public function getEmployee($cpf){
+            return $this->model->getById($cpf, false);
         }
 
         public function addEmployee($employee){
@@ -53,10 +57,35 @@
             }else{
                 echo "<br><p>#Falha ao deletar funcionario#</p>";
             }
+        }
 
+        public function update($employee){
+            $update = $this->model->update($employee);
+            if($update){
+                $this->getById($employee->getCpf());
+            }else{
+                echo "<br><p>#Falha ao editar Funcionario#</p>";
+            }
         }
         
     }
-
-
 ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
