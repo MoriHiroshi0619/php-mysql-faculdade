@@ -36,7 +36,23 @@
                     </tr>
             HTML;
             foreach($employees as $e){
-                if($e->getSupervisor() != null){
+                if($e->getSupervisor() != null && $e->getDepartment() != null){
+                    echo <<<HTML
+                    <tr>
+                        <td>{$e->getFirstName()}</td>
+                        <td>{$e->getMiddleName()}</td>
+                        <td>{$e->getLastName()}</td>
+                        <td>{$e->getCpf()}</td>
+                        <td>{$e->getBirthDate()}</td>
+                        <td>{$e->getAddress()}</td>
+                        <td>{$e->getSalary()}</td>
+                        <td>{$e->getSex()}</td>
+                        <td>{$e->getSupervisorCpf()}</td>
+                        <td>{$e->getDepartmentNumber()}</td>
+                        <td><input type="checkbox" name="employee[]" value="{$e->getCpf()}"></td>
+                    </tr>
+                HTML;
+                }else if($e->getSupervisor() != null){
                     echo <<<HTML
                         <tr>
                             <td>{$e->getFirstName()}</td>
@@ -49,6 +65,22 @@
                             <td>{$e->getSex()}</td>
                             <td>{$e->getSupervisorCpf()}</td>
                             <td>NULL</td>
+                            <td><input type="checkbox" name="employee[]" value="{$e->getCpf()}"></td>
+                        </tr>
+                    HTML;
+                }else if($e->getDepartment() != null){
+                    echo <<<HTML
+                        <tr>
+                            <td>{$e->getFirstName()}</td>
+                            <td>{$e->getMiddleName()}</td>
+                            <td>{$e->getLastName()}</td>
+                            <td>{$e->getCpf()}</td>
+                            <td>{$e->getBirthDate()}</td>
+                            <td>{$e->getAddress()}</td>
+                            <td>{$e->getSalary()}</td>
+                            <td>{$e->getSex()}</td>
+                            <td>NULL</td>
+                            <td>{$e->getDepartmentNumber()}</td>
                             <td><input type="checkbox" name="employee[]" value="{$e->getCpf()}"></td>
                         </tr>
                     HTML;
