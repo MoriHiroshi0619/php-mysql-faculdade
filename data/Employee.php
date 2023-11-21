@@ -108,6 +108,10 @@
             $this->department = $department;
         }
 
+        public function getDepartmentNumber(){
+            return $this->department->getDNumber();
+        }
+
 
         public function insertAtributes($employee){
             if($employee['pnome']){

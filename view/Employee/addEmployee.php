@@ -8,8 +8,11 @@
 <body>
     <?php 
         require(__DIR__ .'/../../controller/EmployeeController.php');
+        require(__DIR__ .'/../../controller/DepartmentController.php');
         use controller\EmployeeController;
+        use controller\DepartmentController;
         $controller = new \controller\EmployeeController();
+        $dc = new \controller\DepartmentController();
     ?>
 
     <header>
@@ -54,8 +57,17 @@
             <br>
             <label for="deparment">se tiver um departamento, escolha pelo ID/Nome</label>
             <select name="dnr" id="department">
-                
+                <option value="null">Nenhum</option>
+                <?php 
+                    $departments = $dc->getAll();
+                    foreach($departments as $d){
+                        echo <<<HTML
+                            <option value="{$d->getDNumber()}">{$d->getDNumber()}/{$d->getDName()}</option>
+                        HTML;
+                    }
+                ?>
             </select>
+            <br>
             <input type="submit" name="submit" value="Inserir">
         </form>
         <button><a href="./action.php">Voltar</a></button>
@@ -72,6 +84,7 @@
             $sexo = $_POST['genero'] ?? null;
             $salario = $_POST['sala'] ?? null;
             $supervisor = $_POST['sp'] ?? null;
+            $dnr = $_POST['dnr'] ?? null;
 
             $employee = new Employee($cpf); 
 
@@ -85,6 +98,9 @@
 
             $supervisor = $controller->getEmployee($supervisor);
             $employee->setSupervisor($supervisor);
+
+            $department = $dc->getDepartment($dnr);
+            $employee->setDepartment($department);
 
             $controller->addEmployee($employee);
         }

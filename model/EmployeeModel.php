@@ -1,6 +1,8 @@
 <?php 
     namespace model;
 
+use Employee;
+
     require_once(__DIR__.'/../config/ConexaoMySql.php');
     require_once(__DIR__.'/../data/Employee.php');
     require_once(__DIR__.'/./DepartmentModel.php');
@@ -86,8 +88,8 @@
 
         public function add($employee){
             try{
-                $sql = "INSERT INTO funcionario (pnome, minicial, unome, cpf, datanasc, endereco, sexo, salario, cpf_supervisor)
-                        VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);";
+                $sql = "INSERT INTO funcionario (pnome, minicial, unome, cpf, datanasc, endereco, sexo, salario, cpf_supervisor, dnr)
+                        VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
                 $stmt = $this->bd->prepare($sql);
 
                 $pnome = $employee->getFirstName();
@@ -104,7 +106,13 @@
                 }else{
                     $supervisor = null;
                 }
-                $stmt->bind_param("sssssssds",
+
+                if($employee->getDepartment() != null){
+                    $dnr = $employee->getDepartmentNumber();
+                }else{
+                    $dnr = null;
+                }
+                $stmt->bind_param("sssssssdsi",
                                 $pnome,
                                 $minicial,
                                 $unome,
@@ -113,7 +121,8 @@
                                 $endereco,
                                 $sexo,
                                 $salario,
-                                $supervisor);
+                                $supervisor,
+                                $dnr);
                 $insert = $stmt->execute();
                 //$stmt->close();
                 //$this->bd->close();
