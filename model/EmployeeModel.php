@@ -3,6 +3,7 @@
 
     require_once(__DIR__.'/../config/ConexaoMySql.php');
     require_once(__DIR__.'/../data/Employee.php');
+    require_once(__DIR__.'/./DepartmentModel.php');
 
     class EmployeeModel extends \ConexaoMySql{
         private $table;
@@ -27,6 +28,12 @@
                         $supervisor = $this->getById($e['cpf_supervisor'], false);
                         $employee->setSupervisor($supervisor);
                     } 
+                    if($e['dnr'] != null){
+                        $dm = new DepartmentModel();
+                        $dnr = $dm->getById($e['dnr'], false);
+                        $employee->setDepartment($dnr);
+                    }
+
                     array_push($employees, $employee);
                 }
                 if($view){
@@ -60,6 +67,11 @@
                         $supervisor = $this->getById($e['cpf_supervisor'], false);
                         $employee->setSupervisor($supervisor);
                     } 
+                    if($e['dnr'] != null){
+                        $dm = new DepartmentModel();
+                        $dnr = $dm->getById($e['dnr'], false);
+                        $employee->setDepartment($dnr);
+                    }
                 }
                 if($view){
                     $stmt->close();

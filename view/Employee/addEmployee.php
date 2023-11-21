@@ -34,12 +34,12 @@
             <label for="h">Homem</label>
             <input type="radio" id="h" value="H" name="genero" checked >
             <label for="m">Mulher</label>
-            <input type="radio" id="m" value="M" name="genero" >
+            <input type="radio" id="m" value="F" name="genero" >
             <br>
             <label for="sala">Salario</label>
             <input type="number" id="sala" name="sala"  required>
             <br>
-            <label for="supervisor">se tiver supervisor, escolha pelo cpf/nome</label>
+            <label for="supervisor">se tiver supervisor, escolha pelo cpf/Nome</label>
             <select name="sp" id="supervisor">
                 <option value="null">Nenhum</option>
                 <?php 
@@ -50,6 +50,11 @@
                         HTML;  
                     }
                 ?>
+            </select>
+            <br>
+            <label for="deparment">se tiver um departamento, escolha pelo ID/Nome</label>
+            <select name="dnr" id="department">
+                
             </select>
             <input type="submit" name="submit" value="Inserir">
         </form>
@@ -84,6 +89,20 @@
             $controller->addEmployee($employee);
         }
     ?>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('form');
+        form.addEventListener('submit', function(event) {
+            const cpfField = document.getElementById('cpf');
+            const cpfValue = cpfField.value.replace(/\D/g, ''); // Remove caracteres não numéricos
+
+            if (cpfValue.length !== 11 || isNaN(cpfValue)) {
+                alert('O CPF deve conter exatamente 11 dígitos numéricos!');
+                event.preventDefault(); // Impede o envio do formulário se a validação falhar
+            }
+        });
+    });
+    </script>
 </body>
 </html>
 

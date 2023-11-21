@@ -32,7 +32,24 @@
         HTML;
         foreach($employees as $em){
             $employee = json_decode($em);
-            if(!empty($employee->supervisor)){
+            if(!empty($employee->supervisor) && !empty($employee->departament)){
+                $supervisor = json_decode($employee->supervisor);
+                $department = json_decode($employee->departament);
+                echo <<<HTML
+                    <tr>
+                        <td>{$employee->firstName}</td>
+                        <td>{$employee->middleName}</td>
+                        <td>{$employee->lastName}</td>
+                        <td>{$employee->cpf}</td>
+                        <td>{$employee->birthDate}</td>
+                        <td>{$employee->address}</td>
+                        <td>{$employee->sex}</td>
+                        <td>{$employee->salary}</td>
+                        <td>{$supervisor->cpf}</td>
+                        <td>{$department->dNumber}</td>
+                    </tr>
+                HTML;
+            }else if(!empty($employee->supervisor)){
                 $supervisor = json_decode($employee->supervisor);
                 echo <<<HTML
                     <tr>
@@ -45,10 +62,11 @@
                         <td>{$employee->sex}</td>
                         <td>{$employee->salary}</td>
                         <td>{$supervisor->cpf}</td>
-                        <td></td>
+                        <td>NULL</td>
                     </tr>
                 HTML;
-            }else{
+            }else if(!empty($employee->departament)){
+                $department = json_decode($employee->departament);
                 echo <<<HTML
                     <tr>
                         <td>{$employee->firstName}</td>
@@ -60,10 +78,26 @@
                         <td>{$employee->sex}</td>
                         <td>{$employee->salary}</td>
                         <td>NULL</td>
-                        <td></td>
+                        <td>{$department->dNumber}</td>
                     </tr>
                 HTML;
-            }   
+            }
+            else{
+                echo <<<HTML
+                    <tr>
+                        <td>{$employee->firstName}</td>
+                        <td>{$employee->middleName}</td>
+                        <td>{$employee->lastName}</td>
+                        <td>{$employee->cpf}</td>
+                        <td>{$employee->birthDate}</td>
+                        <td>{$employee->address}</td>
+                        <td>{$employee->sex}</td>
+                        <td>{$employee->salary}</td>
+                        <td>NULL</td>
+                        <td>NULL</td>
+                    </tr>
+                HTML;
+            }
         }
             echo "</table>";  
         ?>

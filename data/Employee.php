@@ -9,6 +9,7 @@
         private $salary;
         private $sex;
         private $supervisor;
+        private $department;
 
         public function __construct($cpf){
             $this->cpf = $cpf;
@@ -94,9 +95,19 @@
             }
         }
 
+        
         public function getSupervisorName(){
             return $this->supervisor->getFirstName();
         }
+        
+        public function getDepartment(){
+            return $this->department;
+        }
+
+        public function setDepartment($department){
+            $this->department = $department;
+        }
+
 
         public function insertAtributes($employee){
             if($employee['pnome']){
@@ -126,7 +137,20 @@
         }
 
         public function toJason(){
-            if($this->getSupervisor() != null){
+            if($this->getSupervisor() != null && $this->getDepartment() != null){
+                return json_encode(array(
+                    'firstName' => $this->getFirstName(),
+                    'middleName' => $this->getMiddleName(),
+                    'lastName' => $this->getLastName(),
+                    'cpf' => $this->getCpf(),
+                    'birthDate' => $this->getBirthDate(),
+                    'address' => $this->getAddress(),
+                    'salary' => $this->getSalary(),
+                    'sex' => $this->getSex(),
+                    'supervisor' => $this->supervisor->toJason(),
+                    'departament' => $this->department->toJason()
+                ));
+            }else if($this->getSupervisor() != null){
                 return json_encode(array(
                     'firstName' => $this->getFirstName(),
                     'middleName' => $this->getMiddleName(),
@@ -137,6 +161,18 @@
                     'salary' => $this->getSalary(),
                     'sex' => $this->getSex(),
                     'supervisor' => $this->supervisor->toJason()
+                ));
+            }else if($this->getDepartment() != null){
+                return json_encode(array(
+                    'firstName' => $this->getFirstName(),
+                    'middleName' => $this->getMiddleName(),
+                    'lastName' => $this->getLastName(),
+                    'cpf' => $this->getCpf(),
+                    'birthDate' => $this->getBirthDate(),
+                    'address' => $this->getAddress(),
+                    'salary' => $this->getSalary(),
+                    'sex' => $this->getSex(),
+                    'departament' => $this->department->toJason()
                 ));
             }else{
                 return json_encode(array(

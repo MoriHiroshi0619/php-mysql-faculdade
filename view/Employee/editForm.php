@@ -81,7 +81,7 @@
             <label for="h">Homem</label>
             <input type="radio" id="h" value="H" name="genero" checked >
             <label for="m">Mulher</label>
-            <input type="radio" id="m" value="M" name="genero" >
+            <input type="radio" id="m" value="F" name="genero" >
             <br>
             <label for="sala">Salario</label>
             <input type="number" id="sala" name="sala">
