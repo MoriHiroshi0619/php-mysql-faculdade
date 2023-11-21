@@ -30,15 +30,27 @@
                     </tr>
             HTML;
             foreach($department as $d){
-                echo <<<HTML
-                    <tr>
-                        <td>{$d->getDName()}</td>
-                        <td>{$d->getDNumber()}</td>
-                        <td>NULL</td>
-                        <td>NULL</td>
-                        <td><input type="radio" name="department" value="{$d->getDNumber()}"></td>
-                    </tr>
-                HTML;
+                if($d->getManager() != null){
+                    echo <<<HTML
+                        <tr>
+                            <td>{$d->getDName()}</td>
+                            <td>{$d->getDNumber()}</td>
+                            <td>{$d->getManagerCpf()}</td>
+                            <td>{$d->getManagerStartDate()}</td>
+                            <td><input type="radio" name="department" value="{$d->getDNumber()}"></td>
+                        </tr>
+                    HTML;
+                }else{
+                    echo <<<HTML
+                        <tr>
+                            <td>{$d->getDName()}</td>
+                            <td>{$d->getDNumber()}</td>
+                            <td>NULL</td>
+                            <td>NULL</td>
+                            <td><input type="radio" name="department" value="{$d->getDNumber()}"></td>
+                        </tr>
+                    HTML;
+                }
             }
             echo "</form></table>"; 
             if(isset($_POST['submit'])){

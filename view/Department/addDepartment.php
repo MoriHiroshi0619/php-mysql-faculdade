@@ -13,7 +13,6 @@
         use controller\EmployeeControllerl;
         $controller = new DepartmentController();
         $ec = new controller\EmployeeController();
-        
     ?>
     <header>
         <h1>Adicionando um novo departamento</h1>
