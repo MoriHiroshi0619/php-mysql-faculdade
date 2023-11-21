@@ -147,15 +147,24 @@
         public function update($department){
             try{
                 $sql = "UPDATE $this->table
-                        SET dnome = ?
+                        SET dnome = ?, cpf_gerente = ?, data_inicio_gerente = ?
                         WHERE dnumero = ? ;";
 
                 $stmt = $this->bd->prepare($sql);
 
                 $dName = $department->getDName();
                 $dNumber = $department->getDNumber();
-                $stmt->bind_param("si",
+                if($department->getManager() != null || $department->getManager() != false){
+                    $manager = $department->getManagerCpf();
+                    $managerDate = $department->getManagerStartDate();
+                }else{
+                    $manager = null;
+                    $managerDate = null;
+                }
+                $stmt->bind_param("sssi",
                                 $dName,
+                                $manager,
+                                $managerDate,
                                 $dNumber);
                 $update = $stmt->execute();
                 //$stmt->close();

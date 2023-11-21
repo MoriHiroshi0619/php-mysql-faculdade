@@ -38,8 +38,6 @@
             ?>
             </select>
 
-            <label for="managerDate">Data de Inicio do gerente</label>
-            <input type="date" id="managerDate" name="managerDate">
 
             <input type="submit" name="submit" value="Inserir">
         </form>
@@ -50,7 +48,7 @@
             $department = null;
             $dnome = $_POST['dnome'] ?? null;
             $manager = $_POST['manager'] ?? null;
-            $managerDate = $_POST['managerDate'] ?? null;
+            $managerDate;
             $dnumero = $controller->getMaxIdNumber();
             $department = new Department($dnumero); 
             $department->setDName($dnome);

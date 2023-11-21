@@ -40,6 +40,14 @@
                 return null;
             }
         }
+
+        public function getManagerName(){
+            if($this->manager != null){
+                return $this->manager->getFirstName();
+            }else{
+                return null;
+            }
+        }
     
         public function getManagerStartDate() {
             return $this->managerStartDate;

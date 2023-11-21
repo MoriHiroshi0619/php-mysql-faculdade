@@ -58,20 +58,35 @@
             <br>
             <label for="manager">Gerente [CPF / PNOME]</label>
             <select name="manager" id="manager">
-                <option value="null">Nenhum</option>
-            <?php 
-                $employees = $ec->getAll();
-                foreach($employees as $e){
-                    if($e->getDepartment() == null || $e->getDepartmentNumber() == $department->getDNumber()){
+                <?php 
+                    if($department->getManager() != null){
                         echo <<<HTML
-                            <option value="{$e->getCpf()}">{$e->getCpf()} / {$e->getFirstName()}</option>
+                            <option value="{$department->getManagerCpf()}">{$department->getManagerCpf()} / {$department->getManagerName()}</option>
                         HTML;  
                     }
-                }
-            ?>
+                ?>
+                    <option value="null">Nenhum</option>
+                <?php 
+                    $employees = $ec->getAll();
+                    if($department->getManager() != null){
+                        foreach($employees as $e){
+                            if(($e->getDepartment() == null || $e->getDepartmentNumber() == $department->getDNumber()) && $e->getCpf() != $department->getManagerCpf()){
+                                echo <<<HTML
+                                    <option value="{$e->getCpf()}">{$e->getCpf()} / {$e->getFirstName()}</option>
+                                HTML;  
+                            }
+                        }
+                    }else{
+                        foreach($employees as $e){
+                            if($e->getDepartment() == null || $e->getDepartmentNumber() == $department->getDNumber()){
+                                echo <<<HTML
+                                    <option value="{$e->getCpf()}">{$e->getCpf()} / {$e->getFirstName()}</option>
+                                HTML;  
+                            }
+                        }
+                    }
+                ?>
             </select>
-            <label for="managerDate">Data de Inicio do gerente</label>
-            <input type="date" id="managerDate" name="managerDate">
 
             <input type="hidden" name="id" value="<?=$num?>">
             <input type="submit" name="submit" value="Editar">
@@ -80,9 +95,26 @@
         <?php 
             if(isset($_POST['submit'])){
                 $dnome = $_POST['dnome'];
+                $manager = $_POST['manager'];
+
                 if(!empty($dnome) && $dnome != $department->getDName()){
                     $department->setDName($dnome);
                 }
+
+                if($manager != null && $manager != $department->getManagerCpf()){
+                    $manager = $ec->getEmployee($manager);
+                    if(empty($manager)){
+                        $manager = null;
+                        $managerDate = null;
+                    }else{
+                        $managerDate = date('Y-m-d');
+                    }
+
+                    $department->setManager($manager);
+                    $department->setManagerStartDate($managerDate);
+                }
+
+                //echo "<br><br>";
                 //var_dump($department);
                 $controller->update($department);
             }
