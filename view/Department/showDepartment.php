@@ -20,14 +20,26 @@
             <?php 
                 $de = $_GET['objeto'];
                 $department = json_decode(json_decode(urldecode($de)));
-                echo <<<HTML
-                    <tr>
-                        <td>{$department->dName}</td>
-                        <td>{$department->dNumber}</td>
-                        <td>{$department->manager}</td>
-                        <td>{$department->managerStartDate}</td>
-                    </tr>
-                HTML;
+                if(!empty($department->manager)){
+                    $manager = json_decode($department->manager);
+                    echo <<<HTML
+                        <tr>
+                            <td>{$department->dName}</td>
+                            <td>{$department->dNumber}</td>
+                            <td>{$manager->cpf}</td>
+                            <td>{$department->managerStartDate}</td>
+                        </tr>
+                    HTML;
+                }else{
+                    echo <<<HTML
+                        <tr>
+                            <td>{$department->dName}</td>
+                            <td>{$department->dNumber}</td>
+                            <td>NULL</td>
+                            <td>NULL</td>
+                        </tr>
+                    HTML;
+                }
             ?>
         </table>
         <button><a href="./action.php">Voltar</a></button>

@@ -5,6 +5,7 @@
 
     require_once(__DIR__.'/../config/ConexaoMySql.php');
     require_once(__DIR__.'/../data/Department.php');
+    require_once(__DIR__.'/./EmployeeModel.php');
 
     class DepartmentModel extends \ConexaoMySql{
         private $table;
@@ -25,6 +26,14 @@
                 while($d = $result->fetch_assoc()){
                     $department = new \Department($d['dnumero']);
                     $department->insertAtributes($d);
+
+                    if($d['cpf_gerente'] != null){
+                        $em = new EmployeeModel();
+                        $manager = $em->getById($d['cpf_gerente'], false);
+                        $department->setManager($manager);
+                        $department->setManagerStartDate($d['data_inicio_gerente']);
+                    }
+
                     array_push($departments, $department);
                 }
                 if($view){
@@ -53,6 +62,12 @@
                 if($e != null){
                     $department = new \Department($e['dnumero']);
                     $department->insertAtributes($e);
+                    if($e['cpf_gerente'] != null){
+                        $em = new EmployeeModel();
+                        $manager = $em->getById($e['cpf_gerente'], false);
+                        $department->setManager($manager);
+                        $department->setManagerStartDate($e['data_inicio_gerente']);
+                    }
                 }
                 if($view){
                     $stmt->close();
@@ -83,15 +98,19 @@
 
         public function add($department){
             try{
-                $sql = "INSERT INTO $this->table (dnome, dnumero)
-                        VALUES(?, ?);";
+                $sql = "INSERT INTO $this->table (dnome, dnumero, cpf_gerente, data_inicio_gerente)
+                        VALUES(?, ?, ?, ?);";
                 $stmt = $this->bd->prepare($sql);
 
                 $dName = $department->getDName();
                 $dNumber = $department->getDNumber();
-                $stmt->bind_param("si",
+                $manager = $department->getManagerCpf();
+                $managerDate = $department->getManagerStartDate();
+                $stmt->bind_param("siss",
                                 $dName,
-                                $dNumber);
+                                $dNumber,
+                                $manager,
+                                $managerDate);
                 $insert = $stmt->execute();
                 //$stmt->close();
                 //$this->bd->close();

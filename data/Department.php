@@ -32,6 +32,14 @@
         public function setManager($manager) {
             $this->manager = $manager;
         }
+
+        public function getManagerCpf(){
+            if($this->manager != null){
+                return $this->manager->getCpf();
+            }else{
+                return null;
+            }
+        }
     
         public function getManagerStartDate() {
             return $this->managerStartDate;
@@ -48,12 +56,21 @@
         }
 
         public function toJason(){
-            return json_encode(array(
-                'dName' => $this->getDName(),
-                'dNumber' => $this->getDNumber(),
-                'manager' => $this->getManager(),
-                'managerStartDate' => $this->getManagerStartDate(),
-            ));
+            if($this->getManager() != null){
+                return json_encode(array(
+                    'dName' => $this->getDName(),
+                    'dNumber' => $this->getDNumber(),
+                    'manager' => $this->manager->toJason(),
+                    'managerStartDate' => $this->getManagerStartDate(),
+                ));
+            }else{
+                return json_encode(array(
+                    'dName' => $this->getDName(),
+                    'dNumber' => $this->getDNumber(),
+                    'manager' => $this->getManager(),
+                    'managerStartDate' => $this->getManagerStartDate(),
+                ));
+            }
         }
 
     }
