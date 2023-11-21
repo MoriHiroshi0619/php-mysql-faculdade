@@ -121,7 +121,6 @@
         <button><a href="./action.php">Voltar</a></button>
     </main>
     
-
     <script>
         document.getElementById('Form').addEventListener('submit', function(event) {
             const checkboxes = document.querySelectorAll('input[type="checkbox"][name="employee[]"]');

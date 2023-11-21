@@ -32,7 +32,22 @@
             <?php 
                 $cpf = $_REQUEST['cpf'];
                 $employee = $controller->getEmployee($cpf);
-                if($employee->getSupervisor() != null){
+                if($employee->getSupervisor() != null && $employee->getDepartment() != null){
+                    echo <<<HTML
+                    <tr>
+                        <td>{$employee->getFirstName()}</td>
+                        <td>{$employee->getMiddleName()}</td>
+                        <td>{$employee->getLastName()}</td>
+                        <td>{$employee->getCpf()}</td>
+                        <td>{$employee->getBirthDate()}</td>
+                        <td>{$employee->getAddress()}</td>
+                        <td>{$employee->getSalary()}</td>
+                        <td>{$employee->getSex()}</td>
+                        <td>{$employee->getSupervisorCpf()}</td>
+                        <td>{$employee->getDepartmentNumber()}</td>
+                    </tr>
+                HTML;
+                }else if($employee->getSupervisor() != null){
                     echo <<<HTML
                         <tr>
                             <td>{$employee->getFirstName()}</td>
@@ -45,6 +60,21 @@
                             <td>{$employee->getSex()}</td>
                             <td>{$employee->getSupervisorCpf()}</td>
                             <td>NULL</td>
+                        </tr>
+                    HTML;
+                }else if($employee->getDepartment() != null){
+                    echo <<<HTML
+                        <tr>
+                            <td>{$employee->getFirstName()}</td>
+                            <td>{$employee->getMiddleName()}</td>
+                            <td>{$employee->getLastName()}</td>
+                            <td>{$employee->getCpf()}</td>
+                            <td>{$employee->getBirthDate()}</td>
+                            <td>{$employee->getAddress()}</td>
+                            <td>{$employee->getSalary()}</td>
+                            <td>{$employee->getSex()}</td>
+                            <td>NULL</td>
+                            <td>{$employee->getDepartmentNumber()}</td>
                         </tr>
                     HTML;
                 }else{
