@@ -95,9 +95,12 @@
             }
         }
 
-        
         public function getSupervisorName(){
-            return $this->supervisor->getFirstName();
+            if($this->getSupervisor() != null){
+                return $this->supervisor->getFirstName();
+            }else{
+                return null;
+            }
         }
         
         public function getDepartment(){
@@ -109,9 +112,20 @@
         }
 
         public function getDepartmentNumber(){
-            return $this->department->getDNumber();
+            if($this->getDepartment() != null){
+                return $this->department->getDNumber();
+            }else{
+                return null;
+            }
         }
 
+        public function getDepartmentName(){
+            if($this->getDepartment() != null){
+                return $this->department->getDName();
+            }else{
+                return null;
+            }
+        }
 
         public function insertAtributes($employee){
             if($employee['pnome']){

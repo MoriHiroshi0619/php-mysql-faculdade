@@ -7,9 +7,12 @@
 </head>
 <body>
     <?php 
-        require(__DIR__.'/../../controller/EmployeeController.php');
+        require(__DIR__ .'/../../controller/EmployeeController.php');
+        require(__DIR__ .'/../../controller/DepartmentController.php');
         use controller\EmployeeController;
-        $controller = new EmployeeController();
+        use controller\DepartmentController;
+        $controller = new \controller\EmployeeController();
+        $dc = new \controller\DepartmentController();
     ?>
     <header>
         <h1>Insira os dados novos do funcionario</h1>
@@ -116,12 +119,12 @@
             <label for="sala">Salario</label>
             <input type="number" id="sala" name="sala">
             <br>
-            <label for="supervisor">supervisor </label>
+            <label for="supervisor">supervisor [CPF/PNOME]</label>
             <select name="sp" id="supervisor">
                 <?php 
                     if($employee->getSupervisor() != null){
                         echo <<<HTML
-                            <option value="{$employee->getSupervisorCpf()}">{$employee->getSupervisorCpf()}/{$employee->getSupervisorName()}</option>
+                            <option value="{$employee->getSupervisorCpf()}">{$employee->getSupervisorCpf()} / {$employee->getSupervisorName()}</option>
                         HTML;  
                     }
                 ?>
@@ -132,7 +135,7 @@
                         foreach($employees as $e){
                             if($e->getCpf() != $employee->getSupervisorCpf() && $e->getCpf() != $employee->getCpf()){
                                 echo <<<HTML
-                                    <option value="{$e->getCpf()}">{$e->getCpf()}/{$e->getFirstName()}</option>
+                                    <option value="{$e->getCpf()}">{$e->getCpf()} / {$e->getFirstName()}</option>
                                 HTML;  
                             }
                         }
@@ -140,9 +143,39 @@
                         foreach($employees as $e){
                             if($e->getCpf() != $employee->getCpf()){
                                 echo <<<HTML
-                                    <option value="{$e->getCpf()}">{$e->getCpf()}/{$e->getFirstName()}</option>
+                                    <option value="{$e->getCpf()}">{$e->getCpf()} / {$e->getFirstName()}</option>
                                 HTML;  
                             }
+                        }
+                    }
+                ?>
+            </select>
+            <br>
+            <label for="dnr">departamento [ID/NOME]</label>
+            <select name="dnr" id="dnr">
+                <?php 
+                    if($employee->getDepartment() != null){
+                        echo <<<HTML
+                            <option value="{$employee->getDepartmentNumber()}">{$employee->getDepartmentNumber()} / {$employee->getDepartmentName()}</option>
+                        HTML;  
+                    }
+                ?>
+                <option value="null">Nenhum</option>
+                <?php 
+                    $departments = $dc->getAll();
+                    if($employee->getDepartment() != null){
+                        foreach($departments as $d){
+                            if($employee->getDepartmentNumber() != $d->getDNumber()){
+                                echo <<<HTML
+                                    <option value="{$d->getDNumber()}">{$d->getDNumber()}/{$d->getDName()}</option>
+                                HTML;
+                            }
+                        }
+                    }else{
+                        foreach($departments as $d){
+                            echo <<<HTML
+                                <option value="{$d->getDNumber()}">{$d->getDNumber()}/{$d->getDName()}</option>
+                            HTML;
                         }
                     }
                 ?>
@@ -162,6 +195,7 @@
                 $sexo = $_POST['genero'];
                 $salario = $_POST['sala'];
                 $supervisor = $_POST['sp'];
+                $dnr = $_POST['dnr'];
                 
                 if(!empty($pnome) && $pnome != $employee->getFirstName()){
                     $employee->setFirstName($pnome);
@@ -190,6 +224,12 @@
                     $employee->setSupervisor($supervisor);
                 }
 
+                if($dnr != null && $dnr != $employee->getDepartmentNumber()){
+                    $dnr = $dc->getDepartment($dnr);
+                    $employee->setDepartment($dnr);
+                }
+                //echo "<br><br>";
+                //var_dump($employee);
                 $controller->update($employee);
             }
         ?>

@@ -164,7 +164,7 @@ use Employee;
         public function update($employee){
             try{
                 $sql = "UPDATE $this->table
-                        SET pnome = ?, minicial = ?, unome = ?, datanasc = ?, endereco = ?, sexo = ?, salario = ?, cpf_supervisor = ?
+                        SET pnome = ?, minicial = ?, unome = ?, datanasc = ?, endereco = ?, sexo = ?, salario = ?, cpf_supervisor = ?, dnr = ?
                         WHERE cpf = ? ;";
 
                 $stmt = $this->bd->prepare($sql);
@@ -177,12 +177,20 @@ use Employee;
                 $sexo = $employee->getSex();
                 $salario = $employee->getSalary();
                 $cpf = $employee->getCpf();
+
                 if($employee->getSupervisor() == false || $employee->getSupervisor() == null){
                     $supervisor = null;
                 }else{
                     $supervisor = $employee->getSupervisorCpf();
                 }
-                $stmt->bind_param("ssssssdss",
+
+                if($employee->getDepartment() == false || $employee->getDepartment() == null){
+                    $dnr = null;
+                }else{
+                    $dnr = $employee->getDepartmentNumber();
+                }
+
+                $stmt->bind_param("ssssssdsis",
                                 $pnome,
                                 $minicial,
                                 $unome,
@@ -191,6 +199,7 @@ use Employee;
                                 $sexo,
                                 $salario,
                                 $supervisor,
+                                $dnr,
                                 $cpf);
                 $update = $stmt->execute();
                 //$stmt->close();
