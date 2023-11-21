@@ -22,12 +22,13 @@
                 $pr = $_GET['objeto'];
                 $project = json_decode(json_decode(urldecode($pr)));
                 if(isset($project->deparment)){
+                    $department = json_decode($project->deparment);
                     echo <<<HTML
                         <tr>
                             <td>{$project->pName}</td>
                             <td>{$project->pNumber}</td>
                             <td>{$project->projectLocal}</td>
-                            <td>{$project->department}</td>
+                            <td>{$department->dNumber}</td>
                         </tr>
                     HTML;
                 }else{

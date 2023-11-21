@@ -26,12 +26,13 @@
             foreach($projects as $pr){
                 $project = json_decode($pr);
                 if(isset($project->deparment)){
+                    $department = json_decode($project->deparment);
                     echo <<<HTML
                         <tr>
                             <td>{$project->pName}</td>
                             <td>{$project->pNumber}</td>
                             <td>{$project->projectLocal}</td>
-                            <td>{$project->department}</td>
+                            <td>{$department->dNumber}</td>
                         </tr>
                     HTML;
                 }else{

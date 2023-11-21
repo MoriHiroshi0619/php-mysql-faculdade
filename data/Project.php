@@ -41,6 +41,22 @@
             $this->department = $department;
         }
 
+        public function getDepartmentNumber(){
+            if($this->getDepartment() != null){
+                return $this->department->getDNumber();
+            }else{
+                return null;
+            }
+        }
+
+        public function getDepartmentName(){
+            if($this->getDepartment() != null){
+                return $this->department->getDName();
+            }else{
+                return null;
+            }
+        }
+
         public function insertAtributes($project){
             if($project['projnome']){
                 $this->setPName($project['projnome']);
@@ -51,12 +67,21 @@
         }
 
         public function toJason(){
-            return json_encode(array(
-                'pName' => $this->getPName(),
-                'pNumber' => $this->getPNumber(),
-                'projectLocal' => $this->getProjectLocal(),
-                'deparment' => $this->getDepartment()
-            ));
+            if($this->getDepartment() != null){
+                return json_encode(array(
+                    'pName' => $this->getPName(),
+                    'pNumber' => $this->getPNumber(),
+                    'projectLocal' => $this->getProjectLocal(),
+                    'deparment' => $this->department->toJason()
+                ));
+            }else{
+                return json_encode(array(
+                    'pName' => $this->getPName(),
+                    'pNumber' => $this->getPNumber(),
+                    'projectLocal' => $this->getProjectLocal(),
+                    'deparment' => $this->getDepartment()
+                ));
+            }
         }
     
     }

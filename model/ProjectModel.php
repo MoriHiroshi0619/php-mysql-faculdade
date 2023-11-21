@@ -5,6 +5,7 @@
 
     require_once(__DIR__.'/../config/ConexaoMySql.php');
     require_once(__DIR__.'/../data/Project.php');
+    require_once(__DIR__.'/./DepartmentModel.php');
 
     class ProjectModel extends \ConexaoMySql{
         private $table;
@@ -25,6 +26,12 @@
                 while($p = $result->fetch_assoc()){
                     $project = new \Project($p['projnumero']);
                     $project->insertAtributes($p);
+                    if($p['dnum'] != null){
+                        $dm = new DepartmentModel();
+                        $department = $dm->getById($p['dnum'], false);
+                        $project->setDepartment($department);
+                    }
+
                     array_push($projects, $project);
                 }
                 if($view){
@@ -53,6 +60,11 @@
                 if($e != null){
                     $project = new \Project($e['projnumero']);
                     $project->insertAtributes($e);
+                    if($e['dnum'] != null){
+                        $dm = new DepartmentModel();
+                        $department = $dm->getById($e['dnum'], false);
+                        $project->setDepartment($department);
+                    }
                 }
                 if($view){
                     $stmt->close();
@@ -83,17 +95,19 @@
 
         public function add($project){
             try{
-                $sql = "INSERT INTO $this->table (projnome, projnumero, projlocal)
-                        VALUES(?, ?, ?);";
+                $sql = "INSERT INTO $this->table (projnome, projnumero, projlocal, dnum)
+                        VALUES(?, ?, ?, ?);";
                 $stmt = $this->bd->prepare($sql);
 
                 $pName = $project->getPName();
                 $pNum = $project->getPNumber();
                 $plocal = $project->getProjectLocal();
-                $stmt->bind_param("sis",
+                $dnum = $project->getDepartmentNumber();
+                $stmt->bind_param("sisi",
                                 $pName,
                                 $pNum,
-                                $plocal);
+                                $plocal,
+                                $dnum);
                 $insert = $stmt->execute();
                 //$stmt->close();
                 //$this->bd->close();
@@ -130,17 +144,22 @@
         public function update($project){
             try{
                 $sql = "UPDATE $this->table
-                        SET projnome = ?, projlocal = ?
+                        SET projnome = ?, projlocal = ?, dnum = ?
                         WHERE projnumero = ? ;";
                 $stmt = $this->bd->prepare($sql);
 
                 $pName = $project->getPName();
                 $pLocal = $project->getProjectLocal();
-                $pNumber = $project->getPNumber()
-                ;
-                $stmt->bind_param("ssi",
+                $pNumber = $project->getPNumber();
+                if($project->getDepartment() != null || $project->getDepartment() != false){
+                    $dnum = $project->getDepartmentNumber();
+                }else{
+                    $dnum = null;
+                }
+                $stmt->bind_param("ssii",
                                 $pName,
                                 $pLocal,
+                                $dnum,
                                 $pNumber);
                 $update = $stmt->execute();
                 //$stmt->close();

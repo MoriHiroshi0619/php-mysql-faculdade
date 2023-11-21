@@ -36,7 +36,7 @@
                             <td>{$project->getPName()}</td>
                             <td>{$project->getPNumber()}</td>
                             <td>{$project->getProjectLocal()}</td>
-                            <td>{$project->getDepartment()}</td>
+                            <td>{$project->getDepartmentNumber()}</td>
                             <td><input type="radio" name="project" value="{$project->getPNumber()}"></td>
                         </tr>
                     HTML;
