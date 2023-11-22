@@ -16,7 +16,7 @@
             <select name="action" id="action">
                 <option value="employee">Funcionarios</option>
                 <option value="project">Projetos</option>
-                <option value="department">Departmento</option>
+                <option value="department">Departamento</option>
             </select>
             <input type="submit" name="submit" value="Selecionar">
         </form>

@@ -1,5 +1,6 @@
 <?php 
     class ConexaoMySql {
+        private static $instancia;
         private $host = "127.0.0.1";
         private $dbName = "company";
         private $user = "root";
@@ -12,5 +13,17 @@
                 die('Erro na conexão com o banco de dados: ' . $this->bd->connect_error);
             }
         } 
+        
+        public static function getInstancia() {
+            if (!self::$instancia) {
+                self::$instancia = new self();
+            }
+            return self::$instancia;
+        }
+    
+        public function getConexao() {
+            return $this->bd;
+        }
+
     }
 ?>

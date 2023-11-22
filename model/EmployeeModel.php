@@ -11,15 +11,14 @@ use Employee;
         private $table;
 
         function __construct(){
-            parent::__construct();
             $this->table = 'funcionario';
         }
 
-
         public function getAll($view){
             try{
+                $conexao =  \ConexaoMySql::getInstancia()->getConexao();
                 $sql = " SELECT * FROM $this->table ;";
-                $result = $this->bd->execute_query($sql);
+                $result = $conexao->execute_query($sql);
                 if(!$result){
                     throw new \Exception('Erro na consulta'. $this->bd->error);
                 }
@@ -30,19 +29,20 @@ use Employee;
                     if($e['cpf_supervisor'] != null){
                         $supervisor = $this->getById($e['cpf_supervisor'], false);
                         $employee->setSupervisor($supervisor);
-                    } 
+                    }
                     if($e['dnr'] != null){
                         $dm = new DepartmentModel();
                         $dnr = $dm->getById($e['dnr'], false);
                         $employee->setDepartment($dnr);
-                    }
+                    }  
 
                     array_push($employees, $employee);
                 }
                 if($view){
-                    $this->bd->close();
+                    $conexao->close();
                 }
                 return $employees;
+
             }catch (\Exception $e) {
                 echo 'Error MDS '. $e->getMessage();
                 return null;
@@ -51,16 +51,17 @@ use Employee;
 
         public function getById($cpf, $view){
             try{
+                $conexao =  \ConexaoMySql::getInstancia()->getConexao();
                 $sql = " SELECT * FROM $this->table WHERE cpf = ?;";
 
-                $stmt = $this->bd->prepare($sql);
+                $stmt = $conexao->prepare($sql);
                 $stmt->bind_param("s", $cpf);
                 $stmt->execute();
                 $result = $stmt->get_result();
                 if(!$result){
                     throw new \Exception('Erro na consulta'. $this->bd->error);
                 }
-                $employee = false;
+                $employee = null;
                 $e = $result->fetch_assoc();
                 //var_dump($e);
                 if($e != null){
@@ -78,8 +79,9 @@ use Employee;
                 }
                 if($view){
                     $stmt->close();
-                    $this->bd->close();
+                    $conexao->close();
                 }
+
                 return $employee;
             }catch (\Exception $e) {
                 echo 'Error MDS'. $e->getMessage();
@@ -89,9 +91,10 @@ use Employee;
 
         public function add($employee){
             try{
+                $conexao =  \ConexaoMySql::getInstancia()->getConexao();
                 $sql = "INSERT INTO funcionario (pnome, minicial, unome, cpf, datanasc, endereco, sexo, salario, cpf_supervisor, dnr)
                         VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-                $stmt = $this->bd->prepare($sql);
+                $stmt = $conexao->prepare($sql);
 
                 $pnome = $employee->getFirstName();
                 $minicial = $employee->getMiddleName();
@@ -136,6 +139,7 @@ use Employee;
 
         public function delete($employees){
             try{
+                $conexao =  \ConexaoMySql::getInstancia()->getConexao();
                 $sql  = "UPDATE $this->table SET cpf_supervisor = NULL WHERE cpf_supervisor = ?;";
                 $sql1 =  "UPDATE departamento SET cpf_gerente = NULL WHERE cpf_gerente = ?;";
                 $sql2 = "DELETE FROM dependente WHERE fcpf = ?";
@@ -144,23 +148,23 @@ use Employee;
                 foreach($employees as $e){
                     $cpf = $e->getCpf();
 
-                    $stmt = $this->bd->prepare($sql);
+                    $stmt = $conexao->prepare($sql);
                     $stmt->bind_param("s", $cpf);
                     $delete = $stmt->execute();
 
-                    $stmt1 = $this->bd->prepare($sql1);
+                    $stmt1 = $conexao->prepare($sql1);
                     $stmt1->bind_param("s", $cpf);
                     $delete = $stmt1->execute();
 
-                    $stmt2 = $this->bd->prepare($sql2);
+                    $stmt2 = $conexao->prepare($sql2);
                     $stmt2->bind_param("s", $cpf);
                     $delete = $stmt2->execute();
 
-                    $stmt3 = $this->bd->prepare($sql3);
+                    $stmt3 = $conexao->prepare($sql3);
                     $stmt3->bind_param("s", $cpf);
                     $delete = $stmt3->execute();
                     
-                    $stmt4 = $this->bd->prepare($sql4);
+                    $stmt4 = $conexao->prepare($sql4);
                     $stmt4->bind_param("s", $cpf);
                     $delete = $stmt4->execute();
                 }
@@ -175,11 +179,12 @@ use Employee;
 
         public function update($employee){
             try{
+                $conexao =  \ConexaoMySql::getInstancia()->getConexao();
                 $sql = "UPDATE $this->table
                         SET pnome = ?, minicial = ?, unome = ?, datanasc = ?, endereco = ?, sexo = ?, salario = ?, cpf_supervisor = ?, dnr = ?
                         WHERE cpf = ? ;";
 
-                $stmt = $this->bd->prepare($sql);
+                $stmt = $conexao->prepare($sql);
 
                 $pnome = $employee->getFirstName();
                 $minicial = $employee->getMiddleName();

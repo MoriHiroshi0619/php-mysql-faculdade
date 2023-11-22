@@ -9,6 +9,7 @@
 <body>
     <header>
         <h1>Escolhendo uma ação do CRUD</h1>
+        <h1>DEPARTAMENTO</h1>
     </header>
     <main>
         <form action="<?=$_SERVER['PHP_SELF']?>" method="post">

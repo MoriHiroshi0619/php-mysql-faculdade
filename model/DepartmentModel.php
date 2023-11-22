@@ -11,14 +11,14 @@
         private $table;
 
         function __construct(){
-            parent::__construct();
             $this->table = 'departamento';
         }
 
         public function getAll($view){
             try{
+                $conexao =  \ConexaoMySql::getInstancia()->getConexao();
                 $sql = " SELECT * FROM $this->table ;";
-                $result = $this->bd->execute_query($sql);
+                $result = $conexao->execute_query($sql);
                 if(!$result){
                     throw new \Exception('Erro na consulta'. $this->bd->error);
                 }
@@ -32,13 +32,12 @@
                         $manager = $em->getById($d['cpf_gerente'], false);
                         $department->setManager($manager);
                         $department->setManagerStartDate($d['data_inicio_gerente']);
-
                     }
 
                     array_push($departments, $department);
                 }
                 if($view){
-                    $this->bd->close();
+                    $conexao->close();
                 }
                 return $departments;
             }catch (\Exception $e) {
@@ -49,30 +48,31 @@
 
         public function getById($num, $view){
             try{
+                $conexao =  \ConexaoMySql::getInstancia()->getConexao();
                 $sql = " SELECT * FROM $this->table WHERE dnumero = ?;";
-
-                $stmt = $this->bd->prepare($sql);
+                $stmt = $conexao->prepare($sql);
                 $stmt->bind_param("s", $num);
                 $stmt->execute();
                 $result = $stmt->get_result();
                 if(!$result){
                     throw new \Exception('Erro na consulta'. $this->bd->error);
                 }
-                $department = false;
-                $e = $result->fetch_assoc();
-                if($e != null){
-                    $department = new \Department($e['dnumero']);
-                    $department->insertAtributes($e);
-                    if($e['cpf_gerente'] != null){
+                $department = null;
+                $d = $result->fetch_assoc();
+                if($d != null){
+                    $department = new \Department($d['dnumero']);
+                    $department->insertAtributes($d);
+                    //ESSA LINHA TÁ CAGANDO COM O BANCO
+                    /* if($d['cpf_gerente'] != null){
                         $em = new EmployeeModel();
-                        $manager = $em->getById($e['cpf_gerente'], false);
+                        $manager = $em->getById($d['cpf_gerente'], false);
                         $department->setManager($manager);
-                        $department->setManagerStartDate($e['data_inicio_gerente']);
-                    }
+                        $department->setManagerStartDate($d['data_inicio_gerente']);
+                    }  */
                 }
                 if($view){
                     $stmt->close();
-                    $this->bd->close();
+                    $conexao->close();
                 }
                 return $department;
             }catch (\Exception $e) {
@@ -83,8 +83,9 @@
 
         public function getMaxIdNumber(){
             try{
+                $conexao =  \ConexaoMySql::getInstancia()->getConexao();
                 $sql = " SELECT MAX(dnumero) FROM $this->table ;";
-                $result = $this->bd->execute_query($sql);
+                $result = $conexao->execute_query($sql);
                 if(!$result){
                     throw new \Exception('Erro na consulta'. $this->bd->error);
                 }
@@ -99,9 +100,10 @@
 
         public function add($department){
             try{
+                $conexao =  \ConexaoMySql::getInstancia()->getConexao();
                 $sql = "INSERT INTO $this->table (dnome, dnumero, cpf_gerente, data_inicio_gerente)
                         VALUES(?, ?, ?, ?);";
-                $stmt = $this->bd->prepare($sql);
+                $stmt = $conexao->prepare($sql);
 
                 $dName = $department->getDName();
                 $dNumber = $department->getDNumber();
@@ -124,20 +126,20 @@
 
         public function delete($departments){
             try{
-                
+                $conexao =  \ConexaoMySql::getInstancia()->getConexao();
                 $sql1 = "UPDATE funcionario SET dnr = NULL WHERE dnr = ?";
                 $sql2 = "DELETE FROM $this->table WHERE dnumero = ?";
                 foreach($departments as $d){ 
-                    $stmt1 = $this->bd->prepare($sql1);
+                    $stmt1 = $conexao->prepare($sql1);
                     $stmt1->bind_param("i", $d->getDNumber());
                     $delete = $stmt1->execute(); 
                     
-                    $stmt2 = $this->bd->prepare($sql2);
+                    $stmt2 = $conexao->prepare($sql2);
                     $stmt2->bind_param("i", $d->getDNumber());
                     $delete = $stmt2->execute();
                 }
                 //$stmt1->close();
-                //$this->bd->close();
+                //$conexao->close();
                 return $delete;
             }catch (\Exception $e) {
                 echo 'Error'. $e->getMessage();
@@ -147,11 +149,12 @@
 
         public function update($department){
             try{
+                $conexao =  \ConexaoMySql::getInstancia()->getConexao();
                 $sql = "UPDATE $this->table
                         SET dnome = ?, cpf_gerente = ?, data_inicio_gerente = ?
                         WHERE dnumero = ? ;";
 
-                $stmt = $this->bd->prepare($sql);
+                $stmt = $conexao->prepare($sql);
 
                 $dName = $department->getDName();
                 $dNumber = $department->getDNumber();
