@@ -13,7 +13,7 @@
                 die('Erro na conexão com o banco de dados: ' . $this->bd->connect_error);
             }
         } 
-        
+
         public static function getInstancia() {
             if (!self::$instancia) {
                 self::$instancia = new self();
