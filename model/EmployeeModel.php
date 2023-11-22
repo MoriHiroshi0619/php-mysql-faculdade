@@ -15,6 +15,7 @@ use Employee;
             $this->table = 'funcionario';
         }
 
+
         public function getAll($view){
             try{
                 $sql = " SELECT * FROM $this->table ;";
@@ -43,7 +44,7 @@ use Employee;
                 }
                 return $employees;
             }catch (\Exception $e) {
-                echo 'Error'. $e->getMessage();
+                echo 'Error MDS '. $e->getMessage();
                 return null;
             }
         }
@@ -81,7 +82,7 @@ use Employee;
                 }
                 return $employee;
             }catch (\Exception $e) {
-                echo 'Error'. $e->getMessage();
+                echo 'Error MDS'. $e->getMessage();
                 return null;
             }
         }
@@ -217,7 +218,7 @@ use Employee;
                 //$this->bd->close();
                 return $update;
             }catch (\Exception $e) {
-                echo 'Error'. $e->getMessage();
+                echo 'Error '. $e->getMessage();
                 return null;
             }
         }

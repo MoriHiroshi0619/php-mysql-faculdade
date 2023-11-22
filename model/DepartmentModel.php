@@ -32,6 +32,7 @@
                         $manager = $em->getById($d['cpf_gerente'], false);
                         $department->setManager($manager);
                         $department->setManagerStartDate($d['data_inicio_gerente']);
+
                     }
 
                     array_push($departments, $department);
