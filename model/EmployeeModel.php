@@ -135,22 +135,33 @@ use Employee;
 
         public function delete($employees){
             try{
-                $sql0 = "DELETE FROM dependente WHERE fcpf = ?";
-                $sql1 = "DELETE FROM trabalha_em WHERE fcpf = ?";
-                $sql2 = "DELETE FROM funcionario WHERE cpf = ?";
+                $sql  = "UPDATE $this->table SET cpf_supervisor = NULL WHERE cpf_supervisor = ?;";
+                $sql1 =  "UPDATE departamento SET cpf_gerente = NULL WHERE cpf_gerente = ?;";
+                $sql2 = "DELETE FROM dependente WHERE fcpf = ?";
+                $sql3 = "DELETE FROM trabalha_em WHERE fcpf = ?";
+                $sql4 = "DELETE FROM $this->table WHERE cpf = ?";
                 foreach($employees as $e){
-                    $stmt0 = $this->bd->prepare($sql0);
                     $cpf = $e->getCpf();
-                    $stmt0->bind_param("s", $cpf);
-                    $delete = $stmt0->execute();
+
+                    $stmt = $this->bd->prepare($sql);
+                    $stmt->bind_param("s", $cpf);
+                    $delete = $stmt->execute();
 
                     $stmt1 = $this->bd->prepare($sql1);
                     $stmt1->bind_param("s", $cpf);
                     $delete = $stmt1->execute();
-                    
+
                     $stmt2 = $this->bd->prepare($sql2);
                     $stmt2->bind_param("s", $cpf);
                     $delete = $stmt2->execute();
+
+                    $stmt3 = $this->bd->prepare($sql3);
+                    $stmt3->bind_param("s", $cpf);
+                    $delete = $stmt3->execute();
+                    
+                    $stmt4 = $this->bd->prepare($sql4);
+                    $stmt4->bind_param("s", $cpf);
+                    $delete = $stmt4->execute();
                 }
                 //$stmt1->close();
                 //$this->bd->close();

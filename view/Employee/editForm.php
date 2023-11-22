@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edição</title>
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
     <?php 
@@ -111,10 +112,10 @@
             <label for="endereco">Endereço</label>
             <textarea name="endereco" id="endereco" cols="30" rows="10" placeholder="Digite aqui o Endereço"></textarea>
             <br>
-            <label for="h">Homem</label>
             <input type="radio" id="h" value="H" name="genero" checked >
-            <label for="m">Mulher</label>
+            <label for="h">Homem</label>
             <input type="radio" id="m" value="F" name="genero" >
+            <label for="m">Mulher</label>
             <br>
             <label for="sala">Salario</label>
             <input type="number" id="sala" name="sala">

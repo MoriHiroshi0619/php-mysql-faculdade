@@ -4,23 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Funcionarios</title>
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
     <header>
         <h1>Escolhendo uma ação do CRUD</h1>
     </header>
-    <form action="<?=$_SERVER['PHP_SELF']?>" method="post">
-        <label for="action">Por favor escolha uma opção</label>
-        <select name="action" id="action">
-            <option value="getAll">Mostrar todos os funcionarios</option>
-            <option value="getById">Consultar por cpf</option>
-            <option value="add">Adicionar um novo funcionario</option>
-            <option value="edit">Editar um funcionario</option>
-            <option value="delete">Excluir funcionarios</option>
-        </select>
-        <input type="submit" name="submit" value="Selecionar">
-    </form>
-    <button><a href="../../index.php">Voltar</a></button>
+    <main>
+        <form action="<?=$_SERVER['PHP_SELF']?>" method="post">
+            <label for="action">Por favor escolha uma opção</label>
+            <select name="action" id="action">
+                <option value="getAll">Mostrar todos os funcionarios</option>
+                <option value="getById">Consultar por cpf</option>
+                <option value="add">Adicionar um novo funcionario</option>
+                <option value="edit">Editar um funcionario</option>
+                <option value="delete">Excluir funcionarios</option>
+            </select>
+            <input type="submit" name="submit" value="Selecionar">
+        </form>
+        <button><a href="../../index.php">Voltar</a></button>
+    </main>
 </body>
 </html>
 
