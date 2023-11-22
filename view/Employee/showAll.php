@@ -13,9 +13,13 @@
     </header>
     <main>
         <?php 
-        $em = $_GET['objeto'];
+        require_once(__DIR__.'/../../data/Employee.php');
+        require_once(__DIR__.'/../../data/Department.php');
+        session_start();
+        //$em = $_GET['objeto'];
         //converte o json(todos os objetos) para um array de json para cada objeto 
-        $employees = json_decode(urldecode($em));
+        //$employees = json_decode(urldecode($em));
+        $employees = $_SESSION['employees'];
         echo <<< HTML
             <table border="1">
                 <tr>
@@ -31,69 +35,63 @@
                     <th>Numero de departamento</th>
                 </tr>
         HTML;
-        foreach($employees as $em){
-            $employee = json_decode($em);
-            if(!empty($employee->supervisor) && !empty($employee->departament)){
-                $supervisor = json_decode($employee->supervisor);
-                $department = json_decode($employee->departament);
+        foreach($employees as $e){
+            if($e->getSupervisor() != null && $e->getDepartment() != null){
+                echo <<<HTML
+                <tr>
+                    <td>{$e->getFirstName()}</td>
+                    <td>{$e->getMiddleName()}</td>
+                    <td>{$e->getLastName()}</td>
+                    <td>{$e->getCpf()}</td>
+                    <td>{$e->getBirthDate()}</td>
+                    <td>{$e->getAddress()}</td>
+                    <td>{$e->getSalary()}</td>
+                    <td>{$e->getSex()}</td>
+                    <td>{$e->getSupervisorCpf()}</td>
+                    <td>{$e->getDepartmentNumber()}</td>
+                </tr>
+            HTML;
+            }else if($e->getSupervisor() != null){
                 echo <<<HTML
                     <tr>
-                        <td>{$employee->firstName}</td>
-                        <td>{$employee->middleName}</td>
-                        <td>{$employee->lastName}</td>
-                        <td>{$employee->cpf}</td>
-                        <td>{$employee->birthDate}</td>
-                        <td>{$employee->address}</td>
-                        <td>{$employee->sex}</td>
-                        <td>{$employee->salary}</td>
-                        <td>{$supervisor->cpf}</td>
-                        <td>{$department->dNumber}</td>
-                    </tr>
-                HTML;
-            }else if(!empty($employee->supervisor)){
-                $supervisor = json_decode($employee->supervisor);
-                echo <<<HTML
-                    <tr>
-                        <td>{$employee->firstName}</td>
-                        <td>{$employee->middleName}</td>
-                        <td>{$employee->lastName}</td>
-                        <td>{$employee->cpf}</td>
-                        <td>{$employee->birthDate}</td>
-                        <td>{$employee->address}</td>
-                        <td>{$employee->sex}</td>
-                        <td>{$employee->salary}</td>
-                        <td>{$supervisor->cpf}</td>
+                        <td>{$e->getFirstName()}</td>
+                        <td>{$e->getMiddleName()}</td>
+                        <td>{$e->getLastName()}</td>
+                        <td>{$e->getCpf()}</td>
+                        <td>{$e->getBirthDate()}</td>
+                        <td>{$e->getAddress()}</td>
+                        <td>{$e->getSalary()}</td>
+                        <td>{$e->getSex()}</td>
+                        <td>{$e->getSupervisorCpf()}</td>
                         <td>NULL</td>
                     </tr>
                 HTML;
-            }else if(!empty($employee->departament)){
-                $department = json_decode($employee->departament);
+            }else if($e->getDepartment() != null){
                 echo <<<HTML
                     <tr>
-                        <td>{$employee->firstName}</td>
-                        <td>{$employee->middleName}</td>
-                        <td>{$employee->lastName}</td>
-                        <td>{$employee->cpf}</td>
-                        <td>{$employee->birthDate}</td>
-                        <td>{$employee->address}</td>
-                        <td>{$employee->sex}</td>
-                        <td>{$employee->salary}</td>
+                        <td>{$e->getFirstName()}</td>
+                        <td>{$e->getMiddleName()}</td>
+                        <td>{$e->getLastName()}</td>
+                        <td>{$e->getCpf()}</td>
+                        <td>{$e->getBirthDate()}</td>
+                        <td>{$e->getAddress()}</td>
+                        <td>{$e->getSalary()}</td>
+                        <td>{$e->getSex()}</td>
                         <td>NULL</td>
-                        <td>{$department->dNumber}</td>
+                        <td>{$e->getDepartmentNumber()}</td>
                     </tr>
                 HTML;
-            }
-            else{
+            }else{
                 echo <<<HTML
                     <tr>
-                        <td>{$employee->firstName}</td>
-                        <td>{$employee->middleName}</td>
-                        <td>{$employee->lastName}</td>
-                        <td>{$employee->cpf}</td>
-                        <td>{$employee->birthDate}</td>
-                        <td>{$employee->address}</td>
-                        <td>{$employee->sex}</td>
-                        <td>{$employee->salary}</td>
+                        <td>{$e->getFirstName()}</td>
+                        <td>{$e->getMiddleName()}</td>
+                        <td>{$e->getLastName()}</td>
+                        <td>{$e->getCpf()}</td>
+                        <td>{$e->getBirthDate()}</td>
+                        <td>{$e->getAddress()}</td>
+                        <td>{$e->getSalary()}</td>
+                        <td>{$e->getSex()}</td>
                         <td>NULL</td>
                         <td>NULL</td>
                     </tr>

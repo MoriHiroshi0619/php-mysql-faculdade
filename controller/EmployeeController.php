@@ -1,5 +1,6 @@
 <?php
     namespace controller;
+    session_start();
 
     require_once(__DIR__.'/../model/EmployeeModel.php');
     use model\EmployeeModel;
@@ -19,11 +20,13 @@
 
         public function getAndShowAll(){
             $employees = $this->model->getAll(true);
-            $jsonArray = array_map(function($employee){
+            $_SESSION['employees'] = $employees;
+            /* $jsonArray = array_map(function($employee){
                 return $employee->toJason();
             }, $employees);
-            $em = urlencode(json_encode($jsonArray));
-            header("Location:/php-mysql-faculdade/view/Employee/showAll.php?objeto={$em}");    
+            $em = urlencode(json_encode($jsonArray)); 
+            header("Location:/php-mysql-faculdade/view/Employee/showAll.php?objeto={$em}");*/  
+            header("Location:/php-mysql-faculdade/view/Employee/showAll.php");    
             exit();            
         }
 
