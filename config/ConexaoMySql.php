@@ -4,7 +4,7 @@
         private $host = "127.0.0.1";
         private $dbName = "company";
         private $user = "root";
-        private $password = "hiroshi19*";
+        private $password = "A senha pode colocar aqui";
         protected $bd;
 
         public function __construct(){
