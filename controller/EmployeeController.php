@@ -28,7 +28,7 @@
         }
 
         public function getById($cpf){
-            $employee = $this->model->getById($cpf, true);
+            $employee = $this->model->getById($cpf, true, false);
             //require_once(__DIR__.'/../view/Employee/showEmployee.php');
             if($employee){
                 //var_dump($employee);
@@ -39,7 +39,7 @@
         }
 
         public function getEmployee($cpf){
-            return $this->model->getById($cpf, false);
+            return $this->model->getById($cpf, false, false);
         }
 
         public function addEmployee($employee){

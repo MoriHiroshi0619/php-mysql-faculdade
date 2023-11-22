@@ -29,7 +29,7 @@
 
                     if($d['cpf_gerente'] != null){
                         $em = new EmployeeModel();
-                        $manager = $em->getById($d['cpf_gerente'], false);
+                        $manager = $em->getById($d['cpf_gerente'], false, true);
                         $department->setManager($manager);
                         $department->setManagerStartDate($d['data_inicio_gerente']);
                     }
@@ -62,13 +62,13 @@
                 if($d != null){
                     $department = new \Department($d['dnumero']);
                     $department->insertAtributes($d);
-                    //ESSA LINHA TÁ CAGANDO COM O BANCO
-                    /* if($d['cpf_gerente'] != null){
+                    //ESSA condicional tá causando problemas de memoria...
+                    if($d['cpf_gerente'] != null){
                         $em = new EmployeeModel();
-                        $manager = $em->getById($d['cpf_gerente'], false);
+                        $manager = $em->getById($d['cpf_gerente'], false, true);
                         $department->setManager($manager);
                         $department->setManagerStartDate($d['data_inicio_gerente']);
-                    }  */
+                    }
                 }
                 if($view){
                     $stmt->close();

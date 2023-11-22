@@ -27,7 +27,7 @@ use Employee;
                     $employee = new \Employee($e['cpf']);
                     $employee->insertAtributes($e);
                     if($e['cpf_supervisor'] != null){
-                        $supervisor = $this->getById($e['cpf_supervisor'], false);
+                        $supervisor = $this->getById($e['cpf_supervisor'], false, false);
                         $employee->setSupervisor($supervisor);
                     }
                     if($e['dnr'] != null){
@@ -49,7 +49,7 @@ use Employee;
             }
         }
 
-        public function getById($cpf, $view){
+        public function getById($cpf, $view, $isManagerCpf){
             try{
                 $conexao =  \ConexaoMySql::getInstancia()->getConexao();
                 $sql = " SELECT * FROM $this->table WHERE cpf = ?;";
@@ -67,14 +67,16 @@ use Employee;
                 if($e != null){
                     $employee = new \Employee($e['cpf']);
                     $employee->insertAtributes($e);
-                    if($e['cpf_supervisor'] != null){
-                        $supervisor = $this->getById($e['cpf_supervisor'], false);
-                        $employee->setSupervisor($supervisor);
-                    } 
-                    if($e['dnr'] != null){
-                        $dm = new DepartmentModel();
-                        $dnr = $dm->getById($e['dnr'], false);
-                        $employee->setDepartment($dnr);
+                    if(!$isManagerCpf){
+                        if($e['cpf_supervisor'] != null){
+                            $supervisor = $this->getById($e['cpf_supervisor'], false, false);
+                            $employee->setSupervisor($supervisor);
+                        } 
+                        if($e['dnr'] != null){
+                            $dm = new DepartmentModel();
+                            $dnr = $dm->getById($e['dnr'], false);
+                            $employee->setDepartment($dnr);
+                        }
                     }
                 }
                 if($view){
